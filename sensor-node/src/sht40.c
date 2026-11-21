@@ -1,7 +1,8 @@
+/* Sensirion SHT40 driver. */
 #include <avr/io.h>
 #include <util/delay.h>
 #include "i2c.h"
-#include "sht40.h"
+#include "sensor.h"
 #include "protocol.h"
 
 #define SHT40_ADDR        0x44
@@ -16,20 +17,19 @@ static uint8_t send_command(uint8_t cmd)
     return ok;
 }
 
-void sht40_reset(void)
+void sensor_init(void)
 {
     send_command(CMD_SOFT_RESET);
     _delay_ms(1);
 }
 
-uint8_t sht40_start(void)
-{
-    return send_command(CMD_MEASURE_HIGH);
-}
-
-uint8_t sht40_read(int16_t *temp_c100, uint16_t *rh_c100)
+uint8_t sensor_read(int16_t *temp_c100, uint16_t *rh_c100)
 {
     uint8_t buf[6];
+
+    if (!send_command(CMD_MEASURE_HIGH))
+        return 0;
+    sleep_16ms();    /* conversion takes up to 8.3 ms */
 
     i2c_start();
     if (!i2c_write((SHT40_ADDR << 1) | 1)) {

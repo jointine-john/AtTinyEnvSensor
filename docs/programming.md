@@ -84,7 +84,7 @@ so the ISP clock must stay below 250 kHz. The USBasp is already slowed to about
 
 ## Reprogramming a finished sensor in place
 
-PB0/PB1/PB2 are shared with the SHT40 and transmitter. Neither interferes with
+PB0/PB1/PB2 are shared with the sensor and transmitter. Neither interferes with
 programming, so a 6-pin ISP header on the sensor board lets you reflash
 without removing the chip.
 

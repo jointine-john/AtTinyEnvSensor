@@ -7,14 +7,23 @@ Install [PlatformIO Core](https://docs.platformio.org/en/latest/core/installatio
 The ATtiny85 is programmed over ISP with a USBasp or an Arduino running
 ArduinoISP. See [Programming the ATtiny85](programming.md) for wiring.
 
+Choose the PlatformIO environment that matches your sensor board:
+
+| Environment | Sensor | Example boards |
+|---|---|---|
+| `htu21d` (default) | HTU21D, SHT21 or Si7021 | GY-21, GY-213V |
+| `sht40` | Sensirion SHT40 | Adafruit 4885, DFRobot Fermion |
+
 ```sh
 cd sensor-node
 pio run -t fuses                                   # once per new chip
-PLATFORMIO_BUILD_FLAGS="-DNODE_ID=1" pio run -t upload
-PLATFORMIO_BUILD_FLAGS="-DNODE_ID=2" pio run -t upload   # next sensor...
+PLATFORMIO_BUILD_FLAGS="-DNODE_ID=1" pio run -t upload            # HTU21D/GY-21
+PLATFORMIO_BUILD_FLAGS="-DNODE_ID=2" pio run -e sht40 -t upload   # SHT40
 ```
 
-Give each sensor a unique `NODE_ID` (1–255).
+Give each sensor a unique `NODE_ID` (1–255). If the build doesn't match the
+board, the receiver logs `SENSOR ERROR` for that node but still reports its
+battery voltage.
 
 ### Build options
 

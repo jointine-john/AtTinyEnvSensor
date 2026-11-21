@@ -1,12 +1,12 @@
 # ATtiny85 Temperature / Humidity Sensors
 
-Battery-powered sensor nodes (ATtiny85 + SHT40 + 433 MHz transmitter on 2×AA)
+Battery-powered sensor nodes (ATtiny85 + SHT40 or HTU21D + 433 MHz transmitter on 2×AA)
 reporting every ~5 minutes to an ESP32 receiver that publishes to MQTT with
 Home Assistant auto-discovery. Estimated battery use is ~140 mAh a year, so a
 pair of AAs lasts several years.
 
 ```
- [ATtiny85 + SHT40 + STX882] ))) 433.92 MHz OOK ))) [RXB6 + ESP32] --WiFi--> MQTT --> Home Assistant
+ [ATtiny85 + sensor + STX882] ))) 433.92 MHz OOK ))) [RXB6/SRX882 + ESP32] --WiFi--> MQTT --> Home Assistant
 ```
 
 ## Documentation
@@ -23,7 +23,7 @@ pair of AAs lasts several years.
 ## Quick start
 
 ```sh
-# Sensor node (ATtiny85 on a USBasp)
+# Sensor node (ATtiny85 on a USBasp; add "-e sht40" for an SHT40 board)
 cd sensor-node
 pio run -t fuses
 PLATFORMIO_BUILD_FLAGS="-DNODE_ID=1" pio run -t upload

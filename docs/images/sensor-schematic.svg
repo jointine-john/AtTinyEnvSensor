@@ -113,10 +113,10 @@
     <text x="728" y="354">SDA</text>
     <text x="780" y="372" text-anchor="middle">GND</text>
     <text x="850" y="250" font-weight="bold">U2</text>
-    <text x="850" y="266">SHT40</text>
-    <text x="850" y="282">breakout</text>
+    <text x="850" y="266">SHT40 or</text>
+    <text x="850" y="282">GY-21</text>
     <g fill="#57606a" font-size="11">
-      <text x="850" y="306">10 kΩ</text>
+      <text x="850" y="306">I²C</text>
       <text x="850" y="320">pull-ups</text>
       <text x="850" y="334">on board</text>
     </g>

@@ -1,7 +1,8 @@
 /*
  * ATtiny85 temperature/humidity sensor node.
  *
- * Wakes every INTERVAL_S seconds (via the watchdog), reads the SHT40 and the
+ * Wakes every INTERVAL_S seconds (via the watchdog), reads the sensor
+ * (SHT40 or HTU21D, chosen by the PlatformIO environment) and the
  * supply voltage, transmits one packet over 433 MHz and goes back to
  * power-down sleep. Sleep current is dominated by the watchdog (~4-5 uA).
  *
@@ -10,9 +11,9 @@
  *   2 PB3        - unused (driven low)
  *   3 PB4        - unused (driven low)
  *   4 GND
- *   5 PB0        - SHT40 SDA
+ *   5 PB0        - sensor SDA
  *   6 PB1        - transmitter DATA
- *   7 PB2        - SHT40 SCL
+ *   7 PB2        - sensor SCL
  *   8 VCC        - 2x AA direct, no regulator
  */
 #include <avr/io.h>
@@ -24,7 +25,7 @@
 
 #include "protocol.h"
 #include "i2c.h"
-#include "sht40.h"
+#include "sensor.h"
 #include "radio.h"
 
 #ifndef NODE_ID
@@ -71,6 +72,11 @@ static void sleep_wdt(uint8_t prescale)
     sei();
 }
 
+void sleep_16ms(void)
+{
+    sleep_wdt(WDT_16MS);
+}
+
 static uint16_t read_vcc_mv(void)
 {
     power_adc_enable();
@@ -112,22 +118,19 @@ int main(void)
 
     radio_init();
     i2c_init();
-    sht40_reset();
+    sensor_init();
 
     uint8_t seq = 0;
     uint16_t lfsr = 0xACE1u ^ ((uint16_t)NODE_ID << 8);
     uint8_t packet[PROTO_PACKET_LEN];
 
     for (;;) {
-        int16_t temp = PROTO_TEMP_INVALID;
-        uint16_t rh = 0;
+        int16_t temp;
+        uint16_t rh;
 
-        if (sht40_start()) {
-            sleep_wdt(WDT_16MS);    /* conversion takes up to 8.3 ms */
-            if (!sht40_read(&temp, &rh)) {
-                temp = PROTO_TEMP_INVALID;
-                rh = 0;
-            }
+        if (!sensor_read(&temp, &rh)) {
+            temp = PROTO_TEMP_INVALID;
+            rh = 0;
         }
 
         uint16_t vcc = read_vcc_mv();

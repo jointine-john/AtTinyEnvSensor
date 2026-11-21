@@ -6,6 +6,7 @@
 |---|---|
 | ATtiny85-20PU (DIP-8) or ATtiny85V | Runs at 1 MHz, fine down to 1.8 V |
 | SHT40 breakout | Must have SDA/SCL pull-ups (~10 kΩ); Adafruit/generic boards do. **Remove or cut any power LED and regulator** |
+| …or GY-21 (HTU21D/SHT21) breakout | Proof-of-concept sensor. Has pull-ups and a ~1 µA regulator, no LED, so it works as-is. Build the `htu21d` environment |
 | STX882 433 MHz transmitter | Rated 1.2–6 V, works well at 3 V. FS1000A also works but loses range below ~3 V |
 | 17.3 cm wire | Quarter-wave antenna |
 | 100 nF ceramic | Decoupling, across ATtiny VCC/GND |

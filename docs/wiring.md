@@ -4,6 +4,9 @@
 
 ![Sensor node schematic](images/sensor-schematic.svg)
 
+U2 can be an SHT40 or a GY-21 (HTU21D/SHT21) board: both use the pins VIN, GND,
+SCL and SDA. Build the matching firmware (see [Building](building.md)).
+
 VCC and GND symbols all join the same battery rails. Blue labels are net names:
 pins with the same label are connected (J1 is wired to U1 this way).
 
@@ -13,13 +16,13 @@ Pin-level summary:
                  ATtiny85
               +-----\/-----+
    (ISP RST) -| 1 PB5  VCC 8|- Battery +  --- 100nF --- GND
-     unused  -| 2 PB3  PB2 7|- SHT40 SCL
+     unused  -| 2 PB3  PB2 7|- sensor SCL
      unused  -| 3 PB4  PB1 6|- STX882 DATA
-        GND  -| 4 GND  PB0 5|- SHT40 SDA
+        GND  -| 4 GND  PB0 5|- sensor SDA
               +-------------+
 
- SHT40 VIN -> Battery +      STX882 VCC -> Battery +
- SHT40 GND -> GND            STX882 GND -> GND, ANT -> 17.3 cm wire
+sensor VIN -> Battery +      STX882 VCC -> Battery +
+sensor GND -> GND            STX882 GND -> GND, ANT -> 17.3 cm wire
 ```
 
 Fit the 10 µF capacitor across the battery terminals.
@@ -74,7 +77,7 @@ multimeter afterwards. Pin 1 must not connect to pin 8, 2 to 7, 3 to 6, or 4 to 
 | U1 | 8-pin DIP socket | C4–F4, C7–F7 | Notch towards row B, pin 1 at C4 |
 | C2 | 100 nF | C9, G9 | Bend the leads to span 4 rows |
 | J1 | 6-pin straight header | B11–G11 | RST, VCC, SCK, MISO, MOSI, GND (top to bottom) |
-| SHT40 | wires to breakout | C15 VIN, D15 SCL, F15 SDA, G15 GND | Use any wire length; mount the sensor away from the battery |
+| U2 | wires to sensor breakout | C15 VIN, D15 SCL, F15 SDA, G15 GND | SHT40 or GY-21 (same pin names). Use any wire length; mount the sensor away from the battery |
 | STX882 | wires to module | C18 VCC, E18 DATA, G18 GND | Check your module's pin labels |
 | C1 | 10 µF | C21, G21 | |
 | BT1 | battery leads | C23 red (+), G23 black (−) | Holder switch in the red lead |
@@ -87,7 +90,7 @@ the pin names. See [Programming the ATtiny85](programming.md).
 1. Make the 4 track cuts and check them with a meter.
 2. Fit the two wire links.
 3. Fit the IC socket, capacitors and J1 header.
-4. Fit the battery, SHT40 and STX882 wires.
+4. Fit the battery, sensor and STX882 wires.
 5. Before inserting the chip, power up and check for about 3 V between sockets
    C7 (VCC) and F4 (GND).
 6. Insert the ATtiny85, pin 1 (dot) at C4.

@@ -33,16 +33,21 @@
 
 #define PROTO_TEMP_INVALID    0x7FFF
 
-/* CRC-8, polynomial 0x31, init 0xFF (same CRC the SHT4x uses). */
-static inline uint8_t crc8(const uint8_t *data, uint8_t len)
+/* CRC-8, polynomial 0x31. The packet and the SHT4x start from 0xFF,
+ * the HTU21D/SHT21/Si7021 from 0x00. */
+static inline uint8_t crc8_seed(uint8_t crc, const uint8_t *data, uint8_t len)
 {
-    uint8_t crc = 0xFF;
     while (len--) {
         crc ^= *data++;
         for (uint8_t i = 0; i < 8; i++)
             crc = (crc & 0x80) ? (uint8_t)((crc << 1) ^ 0x31) : (uint8_t)(crc << 1);
     }
     return crc;
+}
+
+static inline uint8_t crc8(const uint8_t *data, uint8_t len)
+{
+    return crc8_seed(0xFF, data, len);
 }
 
 #endif

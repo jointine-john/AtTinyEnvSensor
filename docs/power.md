@@ -10,6 +10,10 @@
 
 These are estimates from datasheet figures, not measurements.
 
+With a **GY-21 (HTU21D)** board instead of an SHT40, add about 9 mAh a year
+for the board's 3.3 V regulator (~1 µA). Its longer conversions (~70 ms, slept
+through) add under 1 mAh. The total is still roughly 150 mAh a year.
+
 2×AA alkaline give ~2000 mAh usable down to 2.0 V. The battery outlasts any
 target you're likely to set; shelf life is the real limit. If you wanted a
 CR2032 (~220 mAh) instead, the same firmware would run for about 1.5 years at best
