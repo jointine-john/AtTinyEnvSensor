@@ -1,0 +1,3 @@
+.pio/
+receiver/src/secrets.h
+test/test_decoder

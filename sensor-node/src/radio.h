@@ -1,0 +1,13 @@
+/* 433 MHz OOK transmitter (STX882 / FS1000A) driven by a single data pin. */
+#ifndef RADIO_H
+#define RADIO_H
+
+#include <stdint.h>
+
+#define RADIO_TX_PIN PB1
+
+void radio_init(void);
+/* Sends a PROTO_PACKET_LEN byte packet PROTO_REPEATS times. */
+void radio_send(const uint8_t *packet);
+
+#endif
