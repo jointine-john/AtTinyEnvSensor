@@ -2,6 +2,13 @@
 
 ## Sensor node
 
+![Sensor node schematic](images/sensor-schematic.svg)
+
+VCC and GND symbols all join the same battery rails. Blue labels are net names:
+pins with the same label are connected (J1 is wired to U1 this way).
+
+Pin-level summary:
+
 ```
                  ATtiny85
               +-----\/-----+
@@ -25,6 +32,8 @@ PB0/PB1/PB2 double as the ISP MOSI/MISO/SCK pins, so you can reprogram in-circui
 [Programming the ATtiny85](programming.md#reprogramming-a-finished-sensor-in-place).
 
 ## Receiver
+
+![Receiver schematic](images/receiver-schematic.svg)
 
 | RXB6 | ESP32 |
 |---|---|
