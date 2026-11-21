@@ -2,7 +2,7 @@
 
 Nothing on this page is built yet. It records where the sensor node is headed
 after the stripboard proof of concept: a custom PCB, an enclosure, and coin-cell
-power.
+power. It also covers a sensor on the ESP32 receiver itself.
 
 ## Goals
 
@@ -11,6 +11,8 @@ power.
    JLCPCB (optionally with assembly).
 3. Design a **case** that fits the PCB and cell, and suits indoor and sheltered
    outdoor use.
+4. Have the **ESP32 receiver** record its own temperature, humidity and
+   **pressure**, published to Home Assistant alongside the nodes.
 
 > The cell was noted as "CR2540". No such standard size exists, so this page
 > assumes CR2450 (24.5 mm × 5.0 mm, ~620 mAh). Change it if a different cell was meant.
@@ -121,6 +123,45 @@ unchanged. Draft parts list:
 - 3D-printed (PETG or ASA for outdoor UV resistance).
 - Store the model files in the repo alongside the PCB files.
 
+## 4. Receiver sensor (temperature, humidity, pressure)
+
+The receiver is mains-powered, so power use doesn't matter here.
+
+### Sensor choice
+
+- **BME280** (recommended): temperature, humidity and pressure in one I²C
+  chip, on cheap breakout boards. Buy from a reputable seller: many boards
+  sold as "BME280" carry a BMP280, which has no humidity sensor. The firmware
+  should check the chip ID (0x60 for BME280, 0x58 for BMP280) and log a clear
+  error.
+- **Alternative:** SHT40 for temperature and humidity plus a BMP280/BMP390 for
+  pressure, on the same I²C bus. More accurate humidity (±1.8% vs ±3% RH), and
+  it matches the nodes' sensor, at the cost of a second board.
+
+### Wiring
+
+- I²C on the ESP32 defaults: **SDA → GPIO21, SCL → GPIO22**, VCC → 3V3,
+  GND → GND. GPIO4 stays the 433 MHz receiver input.
+- Most BME280 boards already have I²C pull-ups.
+- **Self-heating:** the ESP32 and its WiFi radio warm the board by a few °C.
+  Mount the sensor on a short lead outside or below the receiver's case, away
+  from the ESP32 and any regulator.
+
+### Firmware
+
+- Read the sensor every 60 s, in forced mode so it sleeps between readings
+  (less self-heating).
+- Publish over the existing MQTT connection as its own Home Assistant device
+  (e.g. "Receiver"), with Home Assistant auto-discovery like the nodes:
+  temperature (°C), humidity (%) and pressure (hPa, device class
+  `atmospheric_pressure`).
+- Optionally report sea-level pressure as well, using a configured altitude
+  (in `secrets.h`), so readings match weather forecasts.
+- Use an existing library (e.g. Adafruit BME280) via `lib_deps` in
+  `receiver/platformio.ini`.
+- Keep it optional: if no sensor answers at start-up, log it and carry on
+  receiving, so receivers without a sensor still work.
+
 ## Open questions
 
 - Confirm the cell size (CR2450 assumed).
@@ -129,3 +170,5 @@ unchanged. Draft parts list:
   performance matters.
 - Hand-solder or JLCPCB assembly? This decides SOIC/DFN vs through-hole parts.
 - Wire antenna or PCB antenna?
+- Receiver sensor: BME280 alone, or SHT40 + BMP280/BMP390? Indoors with the
+  receiver, or on a lead outside?

@@ -21,7 +21,7 @@ between the SHT40 and the HTU21D (GY-21) used for the proof of concept.
 | 5 | [Building and flashing](docs/building.md) | Build options, node IDs, battery calibration, receiver setup, Home Assistant, loopback and decoder tests |
 | 6 | [Power budget](docs/power.md) | Battery life estimate, tuning, measuring sleep current |
 | 7 | [Radio protocol](docs/protocol.md) | Frame format, payload, reliability |
-| 8 | [Future plans](docs/future-plans.md) | Coin-cell power, PCB for EasyEDA, case |
+| 8 | [Future plans](docs/future-plans.md) | Coin-cell power, PCB for EasyEDA, case, receiver pressure sensor |
 
 ## Quick start
 
