@@ -2,6 +2,7 @@
 // publishes them to MQTT with Home Assistant auto-discovery.
 //
 // Wiring: RXB6 VCC -> 3V3, GND -> GND, DATA -> GPIO4, 17.3 cm wire antenna.
+// SRX882: same, plus CS -> 3V3 (see docs/wiring.md).
 #include <Arduino.h>
 #include <WiFi.h>
 #include <PubSubClient.h>

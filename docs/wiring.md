@@ -94,7 +94,11 @@ the pin names. See [Programming the ATtiny85](programming.md).
 
 ## Receiver
 
+Either receiver module works with the same firmware.
+
 ![Receiver schematic](images/receiver-schematic.svg)
+
+### RXB6
 
 | RXB6 | ESP32 |
 |---|---|
@@ -103,7 +107,33 @@ the pin names. See [Programming the ATtiny85](programming.md).
 | DATA (either DATA pin) | GPIO4 |
 | ANT | 17.3 cm wire |
 
-To use a different GPIO, change `RX_PIN` in `receiver/src/main.cpp`.
+### SRX882
+
+The SRX882 often comes in a kit with the STX882 transmitter. Wire it like the
+RXB6, plus the **CS** (enable) pin:
+
+| SRX882 | ESP32 |
+|---|---|
+| VCC | 3V3 |
+| GND | GND |
+| DATA | GPIO4 |
+| **CS** | **3V3** |
+| ANT (either one) | 17.3 cm wire or the supplied coil antenna |
+
+- **CS** is an active-high enable. Low puts the receiver to sleep. Some boards
+  enable it when left floating, but tie it to 3V3 so it can't drift low and
+  silently stop reception.
+- Pin order differs between module versions, so wire by the labels printed on
+  the board, not by position.
+- The module has two ANT pads. Connect the antenna to one only.
+- The coil antenna is compact and fine indoors. A straight 17.3 cm wire usually
+  gives more range.
+
+### Pin choice
+
+To use a different GPIO, change `RX_PIN` in `receiver/src/main.cpp`. Avoid the
+ESP32's strapping pins (0, 2, 12, 15) and the flash pins (6–11). GPIO4, GPIO5,
+GPIO18 and GPIO19 are safe choices.
 
 ## Antennas
 
