@@ -84,9 +84,28 @@ chosen capacitor.
 - **Parts:** pick from the JLCPCB/LCSC basic parts list where possible to keep
   assembly cheap.
 
+### Schematic (draft)
+
+![Sensor node PCB schematic](images/pcb-schematic.svg)
+
+The pin-out is the same as the stripboard build, so the `sht40` firmware runs
+unchanged. Draft parts list:
+
+| Ref | Part | Package (suggested) |
+|---|---|---|
+| BT1 | CR2450 holder | SMD, from the LCSC catalogue |
+| C1, C4 | 100 nF ceramic | 0603 |
+| C2 | 10 µF ceramic | 0805 |
+| C3 | 220–470 µF low-leakage, value from the bench test | Polymer or electrolytic, SMD |
+| R1, R2, R3 | 10 kΩ | 0603 |
+| U1 | ATtiny85V-10SU | SOIC-8 |
+| U2 | SHT40-AD1B | DFN-4 (1.5 × 1.5 mm) |
+| U3 | STX882 module | 4-pin header or castellated pads |
+| J1 | ISP header | 2×3, 2.54 mm, or pogo-pin pads |
+
 ### Steps
 
-1. Draw the schematic in EasyEDA from [Wiring](wiring.md).
+1. Enter this schematic in EasyEDA.
 2. Lay out the board, sized to fit the cell holder.
 3. Order a small batch of bare boards first, hand-assemble one and repeat the
    bench test.
