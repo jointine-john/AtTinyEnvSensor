@@ -7,7 +7,8 @@ Install [PlatformIO Core](https://docs.platformio.org/en/latest/core/installatio
 The ATtiny85 is programmed over ISP with a USBasp or an Arduino running
 ArduinoISP. See [Programming the ATtiny85](programming.md) for wiring.
 
-Choose the PlatformIO environment that matches your sensor board:
+Choose the PlatformIO environment that matches your sensor board (see
+[Sensors](sensors.md) for the differences):
 
 | Environment | Sensor | Example boards |
 |---|---|---|

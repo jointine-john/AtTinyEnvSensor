@@ -3,7 +3,7 @@
 | Item | Current | Per year |
 |---|---|---|
 | Sleep: ATtiny85 power-down + watchdog | ~4.5 µA | ~40 mAh |
-| SHT40 idle | 0.08 µA | <1 mAh |
+| Sensor idle (SHT40 or HTU21D) | ≤0.14 µA | ~1 mAh |
 | MCU awake for measure + TX (~0.45 s at ~0.4 mA, every 5 min) | | ~20 mAh |
 | Transmitter: 3 × 120 ms frames, ~50% duty at ~15 mA, every 5 min | | ~80 mAh |
 | **Total** | | **~140 mAh/year** |

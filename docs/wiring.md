@@ -5,7 +5,7 @@
 ![Sensor node schematic](images/sensor-schematic.svg)
 
 U2 can be an SHT40 or a GY-21 (HTU21D/SHT21) board: both use the pins VIN, GND,
-SCL and SDA. Build the matching firmware (see [Building](building.md)).
+SCL and SDA. Build the matching firmware (see [Sensors](sensors.md)).
 
 VCC and GND symbols all join the same battery rails. Blue labels are net names:
 pins with the same label are connected (J1 is wired to U1 this way).

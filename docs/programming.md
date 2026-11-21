@@ -34,8 +34,9 @@ Easiest is a bare chip on a breadboard with a 100 nF capacitor across pins 8 and
 | 2 VCC | 8 |
 | 4/6/8/10 GND | 4 |
 
-- **Voltage jumper:** 5 V is fine for a bare chip. Use 3.3 V if a bare SHT40 is
-  already connected, as it is only rated to 3.6 V.
+- **Voltage jumper:** 5 V is fine for a bare chip, or with a GY-21 connected (it
+  has its own regulator). Use 3.3 V if a bare SHT40 is already connected, as it
+  is only rated to 3.6 V.
 - **"cannot set sck period" warning:** older USBasp firmware prints this. It is harmless.
 - **Linux USB permissions:** install PlatformIO's udev rules once:
   ```sh

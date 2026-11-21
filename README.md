@@ -2,8 +2,9 @@
 
 Battery-powered sensor nodes (ATtiny85 + SHT40 or HTU21D + 433 MHz transmitter on 2×AA)
 reporting every ~5 minutes to an ESP32 receiver that publishes to MQTT with
-Home Assistant auto-discovery. Estimated battery use is ~140 mAh a year, so a
-pair of AAs lasts several years.
+Home Assistant auto-discovery. Estimated battery use is ~140–150 mAh a year, so a
+pair of AAs lasts several years. See [Sensors](docs/sensors.md) for choosing
+between the SHT40 and the HTU21D (GY-21) used for the proof of concept.
 
 ```
  [ATtiny85 + sensor + STX882] ))) 433.92 MHz OOK ))) [RXB6/SRX882 + ESP32] --WiFi--> MQTT --> Home Assistant
@@ -14,11 +15,12 @@ pair of AAs lasts several years.
 | | Page | Contents |
 |---|---|---|
 | 1 | [Parts](docs/parts.md) | Bill of materials and UK shopping list |
-| 2 | [Wiring](docs/wiring.md) | Sensor node and receiver wiring, antennas |
-| 3 | [Programming the ATtiny85](docs/programming.md) | USBasp, ArduinoISP and SparkFun programmer wiring, troubleshooting |
-| 4 | [Building and flashing](docs/building.md) | Build options, node IDs, battery calibration, receiver setup, Home Assistant, decoder test |
-| 5 | [Power budget](docs/power.md) | Battery life estimate, tuning, measuring sleep current |
-| 6 | [Radio protocol](docs/protocol.md) | Frame format, payload, reliability |
+| 2 | [Sensors](docs/sensors.md) | SHT40 vs HTU21D (GY-21), which firmware to build, board notes, troubleshooting |
+| 3 | [Wiring](docs/wiring.md) | Schematics, stripboard layout, receiver wiring (RXB6/SRX882), antennas |
+| 4 | [Programming the ATtiny85](docs/programming.md) | USBasp, ArduinoISP and SparkFun programmer wiring, troubleshooting |
+| 5 | [Building and flashing](docs/building.md) | Build options, node IDs, battery calibration, receiver setup, Home Assistant, loopback and decoder tests |
+| 6 | [Power budget](docs/power.md) | Battery life estimate, tuning, measuring sleep current |
+| 7 | [Radio protocol](docs/protocol.md) | Frame format, payload, reliability |
 
 ## Quick start
 
