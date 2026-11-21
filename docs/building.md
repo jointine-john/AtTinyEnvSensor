@@ -63,6 +63,33 @@ become unavailable after 20 minutes without data. Raw JSON is published on
 The serial monitor logs every decoded packet, which is the quickest way to
 check the radio link.
 
+### Loopback test (no sensor needed)
+
+The `loopback` environment adds a test transmitter to the receiver firmware. It
+sends a fake sensor packet (node 250) every 30 seconds on **GPIO5**, using
+exactly the ATtiny85's encoding.
+
+1. Fit a jumper wire from **GPIO5 to GPIO4**. Disconnect any receiver module's
+   DATA pin from GPIO4 first.
+2. Flash and watch the serial monitor:
+   ```sh
+   cd receiver
+   pio run -e loopback -t upload && pio device monitor
+   ```
+3. Each `loopback: sent` line should be followed by a matching decoded line:
+   ```
+   loopback: sent node 250 seq 0: 20.00 C, 50.00 %RH, 3000 mV
+   node 250 seq 0: 20.00 C, 50.00 %RH, 3000 mV
+   ```
+4. "ATtiny sensor 250" appears in Home Assistant, with the temperature
+   stepping from 20.00 to 21.90 °C.
+
+To test over the air, wire GPIO5 to an STX882's DATA pin (VCC to 3V3, GND to
+GND) and connect the receiver module to GPIO4 as normal.
+
+Flash the normal build (`pio run -t upload`) when you're done. Delete the
+node 250 device in Home Assistant if you don't want to keep it.
+
 ## Decoder test (PC)
 
 Needs `g++` and `make`.

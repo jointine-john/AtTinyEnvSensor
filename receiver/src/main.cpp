@@ -11,6 +11,9 @@
 
 #include "decoder.h"
 #include "secrets.h"
+#ifdef LOOPBACK_TEST
+#include "loopback.h"
+#endif
 
 constexpr uint8_t RX_PIN = 4;
 constexpr uint32_t DEDUP_WINDOW_MS = 5000;
@@ -164,6 +167,10 @@ void setup()
     pinMode(RX_PIN, INPUT);
     lastEdgeUs = micros();
     attachInterrupt(digitalPinToInterrupt(RX_PIN), onEdge, CHANGE);
+
+#ifdef LOOPBACK_TEST
+    loopbackBegin();
+#endif
 }
 
 void loop()
@@ -177,4 +184,8 @@ void loop()
 
     ensureConnected();
     mqtt.loop();
+
+#ifdef LOOPBACK_TEST
+    loopbackLoop();
+#endif
 }
