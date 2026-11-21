@@ -31,6 +31,67 @@ PB0/PB1/PB2 double as the ISP MOSI/MISO/SCK pins, so you can reprogram in-circui
 (the transmitter will chirp during upload, which is harmless). See
 [Programming the ATtiny85](programming.md#reprogramming-a-finished-sensor-in-place).
 
+## Stripboard layout (sensor node)
+
+![Stripboard layout](images/stripboard-layout.svg)
+
+Board size: 8 strips × 24 holes. Columns are numbered 1–24 from the left and
+rows A–H from the top, **viewed from the component side**.
+
+The ATtiny85 sits across a cut, so each of its rows carries two different nets:
+
+| Row | Left of cut (cols 1–4) | Right of cut (cols 6–24) |
+|---|---|---|
+| A | – | – (spare) |
+| B | RESET (whole strip) | |
+| C | pin 1 RESET | pin 8 **VCC** |
+| D | pin 2 (unused) | pin 7 **SCL / SCK** |
+| E | pin 3 (unused) | pin 6 **DATA / MISO** |
+| F | pin 4 GND | pin 5 **SDA / MOSI** |
+| G | **GND** (whole strip) | |
+| H | – | – (spare) |
+
+### Track cuts
+
+Cut **column 5 on rows C, D, E and F** (4 cuts, under the chip). Do **not** cut
+rows B or G.
+
+When you turn the board over to cut from the copper side, it is mirrored
+left-to-right: column 5 is then 5th from the **right**. Check every cut with a
+multimeter afterwards. Pin 1 must not connect to pin 8, 2 to 7, 3 to 6, or 4 to 5.
+
+### Wire links
+
+| Link | From | To | Joins |
+|---|---|---|---|
+| 1 | C2 | B2 | RESET (pin 1) to row B |
+| 2 | F3 | G3 | GND (pin 4) to row G |
+
+### Components
+
+| Ref | Part | Holes | Notes |
+|---|---|---|---|
+| U1 | 8-pin DIP socket | C4–F4, C7–F7 | Notch towards row B, pin 1 at C4 |
+| C2 | 100 nF | C9, G9 | Bend the leads to span 4 rows |
+| J1 | 6-pin straight header | B11–G11 | RST, VCC, SCK, MISO, MOSI, GND (top to bottom) |
+| SHT40 | wires to breakout | C15 VIN, D15 SCL, F15 SDA, G15 GND | Use any wire length; mount the sensor away from the battery |
+| STX882 | wires to module | C18 VCC, E18 DATA, G18 GND | Check your module's pin labels |
+| C1 | 10 µF | C21, G21 | |
+| BT1 | battery leads | C23 red (+), G23 black (−) | Holder switch in the red lead |
+
+J1 is a single-row header, so connect the USBasp or Arduino with jumper wires using
+the pin names. See [Programming the ATtiny85](programming.md).
+
+### Build order
+
+1. Make the 4 track cuts and check them with a meter.
+2. Fit the two wire links.
+3. Fit the IC socket, capacitors and J1 header.
+4. Fit the battery, SHT40 and STX882 wires.
+5. Before inserting the chip, power up and check for about 3 V between sockets
+   C7 (VCC) and F4 (GND).
+6. Insert the ATtiny85, pin 1 (dot) at C4.
+
 ## Receiver
 
 ![Receiver schematic](images/receiver-schematic.svg)
