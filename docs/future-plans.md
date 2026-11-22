@@ -109,7 +109,8 @@ unchanged. Draft parts list:
 
 ### Steps
 
-1. Enter this schematic in EasyEDA.
+1. Import [`hardware/sensor-node.kicad_sch`](../hardware/README.md) into EasyEDA
+   Pro and assign LCSC parts.
 2. Lay out the board, sized to fit the cell holder.
 3. Order a small batch of bare boards first, hand-assemble one and repeat the
    bench test.
