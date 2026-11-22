@@ -14,8 +14,7 @@ power. It also covers a sensor on the ESP32 receiver itself.
 4. Have the **ESP32 receiver** record its own temperature, humidity and
    **pressure**, published to Home Assistant alongside the nodes.
 
-> The cell was noted as "CR2540". No such standard size exists, so this page
-> assumes CR2450 (24.5 mm × 5.0 mm, ~620 mAh). Change it if a different cell was meant.
+The cell is a **CR2450** (24.5 mm × 5.0 mm, ~620 mAh, 3 V lithium).
 
 ## 1. Coin-cell power
 
@@ -164,7 +163,6 @@ The receiver is mains-powered, so power use doesn't matter here.
 
 ## Open questions
 
-- Confirm the cell size (CR2450 assumed).
 - Target battery life: what is the minimum acceptable?
 - Indoor only, or outdoor too? This drives the case design and whether cold
   performance matters.
