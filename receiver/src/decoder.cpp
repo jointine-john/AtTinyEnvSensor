@@ -71,12 +71,22 @@ bool ManchesterDecoder::pushBit(Phase &p, uint8_t bit)
     p.buf[p.len++] = p.cur;
     p.bits = 0;
     p.cur = 0;
-    if (p.len < PROTO_PACKET_LEN)
+
+    // The first byte is the body length; reject impossible values early.
+    uint8_t bodyLen = p.buf[0];
+    if (bodyLen < PROTO_HEADER_LEN || bodyLen > PROTO_MAX_BODY_LEN) {
+        resetPhase(p);
+        return false;
+    }
+    uint8_t total = (uint8_t)(bodyLen + 2);     // len byte + body + CRC
+    if (p.len < total)
         return false;
 
-    bool ok = crc8(p.buf, PROTO_PAYLOAD_LEN) == p.buf[PROTO_PAYLOAD_LEN];
-    if (ok)
-        memcpy(packet_, p.buf, PROTO_PACKET_LEN);
+    bool ok = crc8(p.buf, (uint8_t)(total - 1)) == p.buf[total - 1];
+    if (ok) {
+        memcpy(packet_, p.buf, total);
+        packetLen_ = total;
+    }
     resetPhase(p);
     return ok;
 }

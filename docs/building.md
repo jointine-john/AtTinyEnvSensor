@@ -53,12 +53,15 @@ pio run -t upload && pio device monitor
 ### Home Assistant
 
 Each sensor appears in Home Assistant through MQTT discovery as a device
-"ATtiny sensor N" with Temperature, Humidity and Battery (V) entities. They
-become unavailable after 20 minutes without data. Raw JSON is published on
-`attiny_th/<id>/state`:
+"ATtiny sensor N". Its entities are created as the node first sends each
+reading: Temperature, Humidity and Battery (V) for a T/H node, plus Pressure,
+Wind speed, Wind gust, Wind direction and Rain for nodes that send them (see
+[Radio protocol](protocol.md#readings)). They become unavailable after 20
+minutes without data. Raw JSON is published on `attiny_th/<id>/state`, with
+only the readings that node sent:
 
 ```json
-{"temperature":21.53,"humidity":45.20,"battery":2.981,"seq":12}
+{"seq":12,"temperature":21.53,"humidity":45.20,"battery":2.981}
 ```
 
 The serial monitor logs every decoded packet, which is the quickest way to
@@ -68,7 +71,8 @@ check the radio link.
 
 The `loopback` environment adds a test transmitter to the receiver firmware. It
 sends a fake sensor packet (node 250) every 30 seconds on **GPIO5**, using
-exactly the ATtiny85's encoding.
+exactly the ATtiny85's encoding. The packet carries every reading type
+(temperature, humidity, pressure, wind and rain), so it tests all of them.
 
 1. Fit a jumper wire from **GPIO5 to GPIO4**. Disconnect any receiver module's
    DATA pin from GPIO4 first.
@@ -79,11 +83,12 @@ exactly the ATtiny85's encoding.
    ```
 3. Each `loopback: sent` line should be followed by a matching decoded line:
    ```
-   loopback: sent node 250 seq 0: 20.00 C, 50.00 %RH, 3000 mV
-   node 250 seq 0: 20.00 C, 50.00 %RH, 3000 mV
+   loopback: sent node 250 seq 1 (29 bytes): 20.10 C, rain tips 1
+   node 250: {"seq":1,"temperature":20.10,"humidity":50.00,"pressure":1013.2,"wind_speed":3.50,"wind_gust":7.20,"wind_direction":22.5,"rain":0.28,"battery":3.000}
    ```
-4. "ATtiny sensor 250" appears in Home Assistant, with the temperature
-   stepping from 20.00 to 21.90 °C.
+4. "ATtiny sensor 250" appears in Home Assistant with all eight entities. The
+   temperature steps from 20.00 to 21.90 °C, the wind direction turns 22.5°
+   per packet and the rain total creeps up.
 
 To test over the air, wire GPIO5 to an STX882's DATA pin (VCC to 3V3, GND to
 GND) and connect the receiver module to GPIO4 as normal.
@@ -99,6 +104,7 @@ Needs `g++` and `make`.
 make -C test
 ```
 
-It feeds the receiver's decoder 20,000 simulated packets with clock error,
-pulse distortion, jitter and noise, and checks that clean packets decode and
-corrupted ones are rejected.
+It feeds the receiver's decoder 20,000 simulated packets, each with a random
+mix of readings, adding clock error, pulse distortion, jitter and noise. It
+checks that clean packets decode and parse back to the readings sent, that
+corrupted ones are rejected, and that malformed packet bodies are dropped.

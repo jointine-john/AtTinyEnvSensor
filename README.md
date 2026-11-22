@@ -2,7 +2,7 @@
 
 Battery-powered sensor nodes (ATtiny85 + SHT40 or HTU21D + 433 MHz transmitter on 2×AA)
 reporting every ~5 minutes to an ESP32 receiver that publishes to MQTT with
-Home Assistant auto-discovery. Estimated battery use is ~140–150 mAh a year, so a
+Home Assistant auto-discovery. Estimated battery use is ~155–165 mAh a year, so a
 pair of AAs lasts several years. See [Sensors](docs/sensors.md) for choosing
 between the SHT40 and the HTU21D (GY-21) used for the proof of concept.
 
@@ -20,7 +20,7 @@ between the SHT40 and the HTU21D (GY-21) used for the proof of concept.
 | 4 | [Programming the ATtiny85](docs/programming.md) | USBasp, ArduinoISP and SparkFun programmer wiring, troubleshooting |
 | 5 | [Building and flashing](docs/building.md) | Build options, node IDs, battery calibration, receiver setup, Home Assistant, loopback and decoder tests |
 | 6 | [Power budget](docs/power.md) | Battery life estimate, tuning, measuring sleep current |
-| 7 | [Radio protocol](docs/protocol.md) | Frame format, payload, reliability |
+| 7 | [Radio protocol](docs/protocol.md) | Frame format, typed readings (T/H, pressure, wind, rain), reliability |
 | 8 | [Future plans](docs/future-plans.md) | Coin-cell power, PCB for EasyEDA, case, receiver pressure sensor |
 
 ## Quick start

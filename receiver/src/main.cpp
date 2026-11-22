@@ -1,5 +1,7 @@
-// ESP32 receiver: decodes 433 MHz packets from the ATtiny85 sensor nodes and
-// publishes them to MQTT with Home Assistant auto-discovery.
+// ESP32 receiver: decodes 433 MHz packets from the ATtiny sensor nodes and
+// publishes them to MQTT with Home Assistant auto-discovery. Each node's
+// readings (temperature, humidity, pressure, wind, rain...) are announced to
+// Home Assistant the first time the node sends them.
 //
 // Wiring: RXB6 VCC -> 3V3, GND -> GND, DATA -> GPIO4, 17.3 cm wire antenna.
 // SRX882: same, plus CS -> 3V3 (see docs/wiring.md).
@@ -10,6 +12,7 @@
 #include "soc/gpio_reg.h"
 
 #include "decoder.h"
+#include "packet.h"
 #include "secrets.h"
 #ifdef LOOPBACK_TEST
 #include "loopback.h"
@@ -51,40 +54,71 @@ static void IRAM_ATTR onEdge()
 static WiFiClient wifiClient;
 static PubSubClient mqtt(wifiClient);
 
+// One Home Assistant entity per reading. `bit` is the SensorPacket::present
+// bit, or BATTERY for the header's battery voltage.
+struct Entity {
+    uint16_t bit;
+    const char *key;            // JSON key in the state payload
+    const char *name;
+    const char *deviceClass;    // nullptr for none
+    const char *unit;
+    const char *stateClass;
+};
+
+constexpr uint16_t BATTERY = 1 << 15;
+
+static const Entity ENTITIES[] = {
+    {SensorPacket::TEMPERATURE, "temperature", "Temperature", "temperature", "\xC2\xB0" "C", "measurement"},
+    {SensorPacket::HUMIDITY, "humidity", "Humidity", "humidity", "%", "measurement"},
+    {SensorPacket::PRESSURE, "pressure", "Pressure", "atmospheric_pressure", "hPa", "measurement"},
+    {SensorPacket::WIND_SPEED, "wind_speed", "Wind speed", "wind_speed", "m/s", "measurement"},
+    {SensorPacket::WIND_GUST, "wind_gust", "Wind gust", "wind_speed", "m/s", "measurement"},
+    {SensorPacket::WIND_DIRECTION, "wind_direction", "Wind direction", nullptr, "\xC2\xB0", "measurement"},
+    {SensorPacket::RAIN, "rain", "Rain", "precipitation", "mm", "total_increasing"},
+    {BATTERY, "battery", "Battery", "voltage", "V", "measurement"},
+};
+
 struct NodeState {
     bool seen = false;
-    bool announced = false;
+    uint16_t announced = 0;     // Entity bits already sent to Home Assistant
     uint8_t lastSeq = 0;
     uint32_t lastMs = 0;
 };
 static NodeState nodes[256];
 
-static void publishDiscovery(uint8_t id, const char *key, const char *name,
-                             const char *deviceClass, const char *unit)
+static void publishDiscovery(uint8_t id, const Entity &e)
 {
     char topic[96];
     char payload[640];
-    snprintf(topic, sizeof(topic), "homeassistant/sensor/attiny_th_%u/%s/config", id, key);
+    char deviceClass[48] = "";
+    if (e.deviceClass)
+        snprintf(deviceClass, sizeof(deviceClass), "\"device_class\":\"%s\",", e.deviceClass);
+    snprintf(topic, sizeof(topic), "homeassistant/sensor/attiny_th_%u/%s/config", id, e.key);
     snprintf(payload, sizeof(payload),
              "{\"name\":\"%s\",\"unique_id\":\"attiny_th_%u_%s\","
              "\"state_topic\":\"attiny_th/%u/state\","
              "\"value_template\":\"{{ value_json.%s }}\","
-             "\"device_class\":\"%s\",\"unit_of_measurement\":\"%s\","
-             "\"state_class\":\"measurement\",\"expire_after\":%lu,"
+             "%s\"unit_of_measurement\":\"%s\","
+             "\"state_class\":\"%s\",\"expire_after\":%lu,"
              "\"device\":{\"identifiers\":[\"attiny_th_%u\"],"
-             "\"name\":\"ATtiny sensor %u\",\"model\":\"ATtiny85 + SHT40\","
+             "\"name\":\"ATtiny sensor %u\",\"model\":\"ATtiny sensor node\","
              "\"manufacturer\":\"DIY\"}}",
-             name, id, key, id, key, deviceClass, unit,
+             e.name, id, e.key, id, e.key, deviceClass, e.unit, e.stateClass,
              (unsigned long)EXPIRE_AFTER_S, id, id);
     mqtt.publish(topic, payload, true);
 }
 
-static void announce(uint8_t id)
+// Announces any of this packet's readings that Home Assistant hasn't seen yet.
+static void announce(const SensorPacket &sp)
 {
-    publishDiscovery(id, "temperature", "Temperature", "temperature", "\xC2\xB0" "C");
-    publishDiscovery(id, "humidity", "Humidity", "humidity", "%");
-    publishDiscovery(id, "battery", "Battery", "voltage", "V");
-    nodes[id].announced = true;
+    uint16_t have = sp.present | (sp.batteryMv ? BATTERY : 0);
+    NodeState &n = nodes[sp.node];
+    for (const Entity &e : ENTITIES) {
+        if ((have & e.bit) && !(n.announced & e.bit)) {
+            publishDiscovery(sp.node, e);
+            n.announced |= e.bit;
+        }
+    }
 }
 
 static void ensureConnected()
@@ -102,7 +136,7 @@ static void ensureConnected()
     if (mqtt.connect("attiny-th-receiver", user, pass)) {
         Serial.println("MQTT connected");
         for (auto &n : nodes)
-            n.announced = false;    // re-announce in case the broker lost retained config
+            n.announced = 0;    // re-announce in case the broker lost retained config
     } else {
         Serial.printf("MQTT connect failed, rc=%d\n", mqtt.state());
     }
@@ -110,41 +144,68 @@ static void ensureConnected()
 
 // --- Packet handling ----------------------------------------------------------
 
-static void handlePacket(const uint8_t *p)
+// Appends `,"key":value` to the JSON being built in buf.
+static void addField(char *buf, size_t size, size_t &len, const char *key, const char *fmt, double v)
 {
-    uint8_t id = p[0];
-    uint8_t seq = p[1];
-    int16_t temp = (int16_t)((p[2] << 8) | p[3]);
-    uint16_t rh = (p[4] << 8) | p[5];
-    uint16_t vbat = (p[6] << 8) | p[7];
+    if (len >= size)
+        return;
+    len += snprintf(buf + len, size - len, ",\"%s\":", key);
+    if (len < size)
+        len += snprintf(buf + len, size - len, fmt, v);
+}
 
-    NodeState &n = nodes[id];
-    uint32_t now = millis();
-    if (n.seen && n.lastSeq == seq && now - n.lastMs < DEDUP_WINDOW_MS)
-        return;     // repeat of a packet we already have
-    n.seen = true;
-    n.lastSeq = seq;
-    n.lastMs = now;
-
-    if (temp == PROTO_TEMP_INVALID) {
-        Serial.printf("node %u seq %u: SENSOR ERROR, battery %u mV\n", id, seq, vbat);
+static void handlePacket(const uint8_t *pkt, uint8_t pktLen)
+{
+    SensorPacket sp;
+    if (!parsePacket(pkt, pktLen, sp)) {
+        Serial.println("malformed packet (valid CRC), ignored");
         return;
     }
 
-    Serial.printf("node %u seq %u: %.2f C, %.2f %%RH, %u mV\n",
-                  id, seq, temp / 100.0, rh / 100.0, vbat);
+    NodeState &n = nodes[sp.node];
+    uint32_t now = millis();
+    if (n.seen && n.lastSeq == sp.seq && now - n.lastMs < DEDUP_WINDOW_MS)
+        return;     // repeat of a packet we already have
+    n.seen = true;
+    n.lastSeq = sp.seq;
+    n.lastMs = now;
+
+    // Build the state payload and the log line together.
+    char payload[320];
+    size_t len = snprintf(payload, sizeof(payload), "{\"seq\":%u", sp.seq);
+    if (sp.has(SensorPacket::TEMPERATURE))
+        addField(payload, sizeof(payload), len, "temperature", "%.2f", sp.temperature / 100.0);
+    if (sp.has(SensorPacket::HUMIDITY))
+        addField(payload, sizeof(payload), len, "humidity", "%.2f", sp.humidity / 100.0);
+    if (sp.has(SensorPacket::PRESSURE))
+        addField(payload, sizeof(payload), len, "pressure", "%.1f", sp.pressure / 10.0);
+    if (sp.has(SensorPacket::WIND_SPEED))
+        addField(payload, sizeof(payload), len, "wind_speed", "%.2f", sp.windSpeed / 100.0);
+    if (sp.has(SensorPacket::WIND_GUST))
+        addField(payload, sizeof(payload), len, "wind_gust", "%.2f", sp.windGust / 100.0);
+    if (sp.has(SensorPacket::WIND_DIRECTION))
+        addField(payload, sizeof(payload), len, "wind_direction", "%.1f", sp.windDirection / 10.0);
+    if (sp.has(SensorPacket::RAIN))
+        addField(payload, sizeof(payload), len, "rain", "%.2f",
+                 (double)sp.rainTips * sp.rainUmPerTip / 1000.0);
+    if (sp.batteryMv)
+        addField(payload, sizeof(payload), len, "battery", "%.3f", sp.batteryMv / 1000.0);
+    if (len < sizeof(payload) - 1) {
+        payload[len++] = '}';
+        payload[len] = '\0';
+    }
+
+    Serial.printf("node %u: %s%s\n", sp.node, payload,
+                  (sp.status & PROTO_STATUS_SENSOR_ERROR) ? "  SENSOR ERROR" : "");
+    if (sp.unknown)
+        Serial.printf("node %u: %u reading(s) of unknown type skipped\n", sp.node, sp.unknown);
 
     if (!mqtt.connected())
         return;
-    if (!n.announced)
-        announce(id);
+    announce(sp);
 
     char topic[32];
-    char payload[128];
-    snprintf(topic, sizeof(topic), "attiny_th/%u/state", id);
-    snprintf(payload, sizeof(payload),
-             "{\"temperature\":%.2f,\"humidity\":%.2f,\"battery\":%.3f,\"seq\":%u}",
-             temp / 100.0, rh / 100.0, vbat / 1000.0, seq);
+    snprintf(topic, sizeof(topic), "attiny_th/%u/state", sp.node);
     mqtt.publish(topic, payload);
 }
 
@@ -179,7 +240,7 @@ void loop()
         Pulse pulse = ring[ringTail];
         ringTail = (ringTail + 1) % RING_SIZE;
         if (decoder.feedPulse(pulse.level, pulse.durationUs))
-            handlePacket(decoder.packet());
+            handlePacket(decoder.packet(), decoder.packetLen());
     }
 
     ensureConnected();

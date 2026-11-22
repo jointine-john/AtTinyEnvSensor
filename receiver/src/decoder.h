@@ -11,10 +11,12 @@ class ManchesterDecoder {
 public:
     ManchesterDecoder() { reset(); }
 
-    // Returns true when this pulse completed a packet with a valid CRC;
-    // the packet is then available from packet().
+    // Returns true when this pulse completed a packet with a valid CRC.
+    // The packet (len byte, body, CRC) is then available from packet(),
+    // packetLen() bytes long.
     bool feedPulse(uint8_t level, uint32_t durationUs);
     const uint8_t *packet() const { return packet_; }
+    uint8_t packetLen() const { return packetLen_; }
     void reset();
 
 private:
@@ -28,7 +30,7 @@ private:
         uint8_t cur;
         uint8_t bits;
         uint8_t len;
-        uint8_t buf[PROTO_PACKET_LEN];
+        uint8_t buf[PROTO_MAX_PACKET_LEN];
     };
 
     bool pushHalf(uint8_t level);
@@ -37,5 +39,6 @@ private:
 
     Phase phases_[2];
     uint8_t parity_;
-    uint8_t packet_[PROTO_PACKET_LEN];
+    uint8_t packet_[PROTO_MAX_PACKET_LEN];
+    uint8_t packetLen_ = 0;
 };

@@ -4,19 +4,19 @@
 |---|---|---|
 | Sleep: ATtiny85 power-down + watchdog | ~4.5 µA | ~40 mAh |
 | Sensor idle (SHT40 or HTU21D) | ≤0.14 µA | ~1 mAh |
-| MCU awake for measure + TX (~0.45 s at ~0.4 mA, every 5 min) | | ~20 mAh |
-| Transmitter: 3 × 120 ms frames, ~50% duty at ~15 mA, every 5 min | | ~80 mAh |
-| **Total** | | **~140 mAh/year** |
+| MCU awake for measure + TX (~0.5 s at ~0.4 mA, every 5 min) | | ~22 mAh |
+| Transmitter: 3 × 137 ms frames, ~50% duty at ~15 mA, every 5 min | | ~92 mAh |
+| **Total** | | **~155 mAh/year** |
 
 These are estimates from datasheet figures, not measurements.
 
 With a **GY-21 (HTU21D)** board instead of an SHT40, add about 9 mAh a year
 for the board's 3.3 V regulator (~1 µA). Its longer conversions (~70 ms, slept
-through) add under 1 mAh. The total is still roughly 150 mAh a year.
+through) add under 1 mAh. The total is roughly 165 mAh a year.
 
 2×AA alkaline give ~2000 mAh usable down to 2.0 V. The battery outlasts any
 target you're likely to set; shelf life is the real limit. If you wanted a
-CR2032 (~220 mAh) instead, the same firmware would run for about 1.5 years at best
+CR2032 (~220 mAh) instead, the same firmware would run for about 1.4 years at best
 (add a 100 µF low-leakage capacitor for the TX bursts).
 
 ## Tuning

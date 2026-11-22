@@ -11,7 +11,7 @@ constexpr gpio_num_t TX_PIN = GPIO_NUM_5;
 constexpr uint8_t NODE_ID = 250;
 constexpr uint32_t INTERVAL_MS = 30000;
 
-constexpr uint16_t FRAME_HALVES = ((PROTO_PREAMBLE_LEN + 1 + PROTO_PACKET_LEN) * 8 + 1) * 2;
+constexpr uint16_t FRAME_HALVES = ((PROTO_PREAMBLE_LEN + 1 + PROTO_MAX_PACKET_LEN) * 8 + 1) * 2;
 constexpr uint16_t GAP_HALVES = PROTO_REPEAT_GAP_MS * 1000 / PROTO_HALF_BIT_US;
 constexpr uint16_t MAX_HALVES = PROTO_REPEATS * (FRAME_HALVES + GAP_HALVES);
 
@@ -51,28 +51,30 @@ static void pushByte(uint16_t &n, uint8_t byte)
 
 static void sendPacket()
 {
-    // Sawtooth 20.00 -> 21.90 C so successive readings are visibly different.
+    // Every reading type, so the whole receiver path gets exercised. The
+    // temperature is a sawtooth 20.00 -> 21.90 C and the wind turns 22.5
+    // degrees a packet, so successive readings are visibly different.
     int16_t temp = 2000 + (seq % 20) * 10;
-    uint16_t rh = 5000;
-    uint16_t vbat = 3000;
+    static uint16_t rainTips = 0;
+    rainTips += seq % 3;
 
-    uint8_t pkt[PROTO_PACKET_LEN];
-    pkt[0] = NODE_ID;
-    pkt[1] = seq;
-    pkt[2] = (uint16_t)temp >> 8;
-    pkt[3] = (uint16_t)temp & 0xFF;
-    pkt[4] = rh >> 8;
-    pkt[5] = rh & 0xFF;
-    pkt[6] = vbat >> 8;
-    pkt[7] = vbat & 0xFF;
-    pkt[8] = crc8(pkt, PROTO_PAYLOAD_LEN);
+    uint8_t pkt[PROTO_MAX_PACKET_LEN];
+    uint8_t len = proto_begin(pkt, NODE_ID, seq, 3000);
+    len = proto_put16(pkt, len, PROTO_TEMPERATURE, (uint16_t)temp);
+    len = proto_put16(pkt, len, PROTO_HUMIDITY, 5000);
+    len = proto_put16(pkt, len, PROTO_PRESSURE, 10132);
+    len = proto_put16(pkt, len, PROTO_WIND_SPEED, 350);
+    len = proto_put16(pkt, len, PROTO_WIND_GUST, 720);
+    len = proto_put16(pkt, len, PROTO_WIND_DIRECTION, (seq % 16) * 225);
+    len = proto_put32(pkt, len, PROTO_RAIN, ((uint32_t)rainTips << 16) | 279);
+    len = proto_end(pkt, len);
 
     uint16_t n = 0;
     for (uint8_t r = 0; r < PROTO_REPEATS; r++) {
         for (uint8_t i = 0; i < PROTO_PREAMBLE_LEN; i++)
             pushByte(n, PROTO_PREAMBLE_BYTE);
         pushByte(n, PROTO_SYNC_BYTE);
-        for (uint8_t i = 0; i < PROTO_PACKET_LEN; i++)
+        for (uint8_t i = 0; i < len; i++)
             pushByte(n, pkt[i]);
         pushBit(n, 0);
         for (uint16_t i = 0; i < GAP_HALVES; i++)
@@ -82,8 +84,8 @@ static void sendPacket()
     halfIdx = 0;
     halfCount = n;
     esp_timer_start_periodic(timer, PROTO_HALF_BIT_US);
-    Serial.printf("loopback: sent node %u seq %u: %.2f C, %.2f %%RH, %u mV\n",
-                  NODE_ID, seq, temp / 100.0, rh / 100.0, vbat);
+    Serial.printf("loopback: sent node %u seq %u (%u bytes): %.2f C, rain tips %u\n",
+                  NODE_ID, seq, len, temp / 100.0, rainTips);
     seq++;
 }
 

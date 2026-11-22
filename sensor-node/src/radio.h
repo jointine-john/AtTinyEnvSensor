@@ -7,7 +7,7 @@
 #define RADIO_TX_PIN PB1
 
 void radio_init(void);
-/* Sends a PROTO_PACKET_LEN byte packet PROTO_REPEATS times. */
-void radio_send(const uint8_t *packet);
+/* Sends a len-byte packet (from proto_end) PROTO_REPEATS times. */
+void radio_send(const uint8_t *packet, uint8_t len);
 
 #endif

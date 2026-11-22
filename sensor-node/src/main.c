@@ -122,29 +122,20 @@ int main(void)
 
     uint8_t seq = 0;
     uint16_t lfsr = 0xACE1u ^ ((uint16_t)NODE_ID << 8);
-    uint8_t packet[PROTO_PACKET_LEN];
+    uint8_t packet[PROTO_MAX_PACKET_LEN];
 
     for (;;) {
         int16_t temp;
         uint16_t rh;
 
-        if (!sensor_read(&temp, &rh)) {
-            temp = PROTO_TEMP_INVALID;
-            rh = 0;
+        uint8_t n = proto_begin(packet, NODE_ID, seq++, read_vcc_mv());
+        if (sensor_read(&temp, &rh)) {
+            n = proto_put16(packet, n, PROTO_TEMPERATURE, (uint16_t)temp);
+            n = proto_put16(packet, n, PROTO_HUMIDITY, rh);
+        } else {
+            n = proto_put8(packet, n, PROTO_STATUS, PROTO_STATUS_SENSOR_ERROR);
         }
-
-        uint16_t vcc = read_vcc_mv();
-
-        packet[0] = NODE_ID;
-        packet[1] = seq++;
-        packet[2] = (uint16_t)temp >> 8;
-        packet[3] = (uint16_t)temp & 0xFF;
-        packet[4] = rh >> 8;
-        packet[5] = rh & 0xFF;
-        packet[6] = vcc >> 8;
-        packet[7] = vcc & 0xFF;
-        packet[8] = crc8(packet, PROTO_PAYLOAD_LEN);
-        radio_send(packet);
+        radio_send(packet, proto_end(packet, n));
 
         /* Randomly add one extra 8 s period so nodes that started together
          * drift apart instead of colliding every time. */

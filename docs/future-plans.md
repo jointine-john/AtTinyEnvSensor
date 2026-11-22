@@ -20,7 +20,7 @@ The cell is a **CR2450** (24.5 mm × 5.0 mm, ~620 mAh, 3 V lithium).
 
 ### Budget
 
-From [Power budget](power.md), the node uses about 140 mAh a year with an
+From [Power budget](power.md), the node uses about 155 mAh a year with an
 SHT40. On a CR2450:
 
 | Cell | Capacity | Estimated life |
@@ -28,7 +28,7 @@ SHT40. On a CR2450:
 | CR2450 | ~620 mAh | ~3–4 years on paper, less in the cold |
 | CR2032 (for comparison) | ~220 mAh | ~1.5 years |
 
-The ~80 mAh a year spent on the transmitter is the biggest item, so it is the
+The ~92 mAh a year spent on the transmitter is the biggest item, so it is the
 first thing to cut if life falls short.
 
 ### The pulse-current problem

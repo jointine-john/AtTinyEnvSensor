@@ -32,13 +32,13 @@ void radio_init(void)
     PORTB &= ~_BV(RADIO_TX_PIN);
 }
 
-void radio_send(const uint8_t *packet)
+void radio_send(const uint8_t *packet, uint8_t len)
 {
     for (uint8_t r = 0; r < PROTO_REPEATS; r++) {
         for (uint8_t i = 0; i < PROTO_PREAMBLE_LEN; i++)
             send_byte(PROTO_PREAMBLE_BYTE);
         send_byte(PROTO_SYNC_BYTE);
-        for (uint8_t i = 0; i < PROTO_PACKET_LEN; i++)
+        for (uint8_t i = 0; i < len; i++)
             send_byte(packet[i]);
         /* Ensures the last CRC half-bit is terminated by an edge. */
         send_bit(0);
