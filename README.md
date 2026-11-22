@@ -6,6 +6,9 @@ Home Assistant auto-discovery. Estimated battery use is ~140–150 mAh a year, s
 pair of AAs lasts several years. See [Sensors](docs/sensors.md) for choosing
 between the SHT40 and the HTU21D (GY-21) used for the proof of concept.
 
+Split from [AtTinyWeatherStation](https://github.com/jointine-john/AtTinyWeatherStation), which continues as an ATtiny84 wind and rain station. Both
+projects share the radio protocol, so one receiver can hear both kinds of node.
+
 ```
  [ATtiny85 + sensor + STX882] ))) 433.92 MHz OOK ))) [RXB6/SRX882 + ESP32] --WiFi--> MQTT --> Home Assistant
 ```

@@ -5,7 +5,7 @@ after the stripboard proof of concept: a custom PCB, an enclosure, and coin-cell
 power. It also covers a sensor on the ESP32 receiver itself.
 
 Wind and rain recording (on the ATtiny84) moved to the separate
-AtTinyWeatherStation project.
+[AtTinyWeatherStation](https://github.com/jointine-john/AtTinyWeatherStation) project.
 
 ## Goals
 

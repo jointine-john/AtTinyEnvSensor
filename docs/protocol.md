@@ -7,8 +7,9 @@ sends only the readings it has: a temperature/humidity node sends two, a
 weather station can add pressure, wind and rain. The receiver announces each
 reading to Home Assistant the first time a node sends it.
 
-The format is shared with the AtTinyWeatherStation project (an ATtiny84 wind
-and rain station). That is why wind and rain types are defined here even
+The format is shared with the
+[AtTinyWeatherStation](https://github.com/jointine-john/AtTinyWeatherStation) project (an ATtiny84
+wind and rain station). That is why wind and rain types are defined here even
 though these nodes don't send them: one receiver can listen to both kinds of
 node.
 
