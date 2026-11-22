@@ -795,15 +795,31 @@
         (path "/4fe0de52-3962-5882-afff-a39b8445ab12"
           (reference "BT1")
           (unit 1)))))
+  (wire
+    (pts
+      (xy 25.4 46.99)
+      (xy 25.4 44.45))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 7ba7c3a8-baa2-52f8-8870-04a444553b6f))
   (label "VCC"
-    (at 25.4 46.99 90)
+    (at 25.4 44.45 90)
     (effects
       (font
         (size 1.27 1.27))
       (justify left bottom))
     (uuid 1fcf723a-332e-5468-98c7-dbffe4d6c538))
+  (wire
+    (pts
+      (xy 25.4 54.61)
+      (xy 25.4 57.15))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 93635a26-85ed-5807-8c73-26276cb84247))
   (label "GND"
-    (at 25.4 54.61 270)
+    (at 25.4 57.15 270)
     (effects
       (font
         (size 1.27 1.27))
@@ -856,15 +872,31 @@
         (path "/4fe0de52-3962-5882-afff-a39b8445ab12"
           (reference "C3")
           (unit 1)))))
+  (wire
+    (pts
+      (xy 40.64 46.99)
+      (xy 40.64 44.45))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 19f95666-bd73-5a61-bae5-dd034f6e9707))
   (label "VCC"
-    (at 40.64 46.99 90)
+    (at 40.64 44.45 90)
     (effects
       (font
         (size 1.27 1.27))
       (justify left bottom))
     (uuid 818ca27c-2c24-5e0b-966a-17072197b566))
+  (wire
+    (pts
+      (xy 40.64 54.61)
+      (xy 40.64 57.15))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 06c89dc2-79c1-5d62-803a-7bbbf02bef88))
   (label "GND"
-    (at 40.64 54.61 270)
+    (at 40.64 57.15 270)
     (effects
       (font
         (size 1.27 1.27))
@@ -917,15 +949,31 @@
         (path "/4fe0de52-3962-5882-afff-a39b8445ab12"
           (reference "C2")
           (unit 1)))))
+  (wire
+    (pts
+      (xy 55.88 46.99)
+      (xy 55.88 44.45))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 7db66c27-d686-50f5-82cf-97901a4bf050))
   (label "VCC"
-    (at 55.88 46.99 90)
+    (at 55.88 44.45 90)
     (effects
       (font
         (size 1.27 1.27))
       (justify left bottom))
     (uuid f3ffa3b2-5c69-5e10-9dad-9fac675eb3d5))
+  (wire
+    (pts
+      (xy 55.88 54.61)
+      (xy 55.88 57.15))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 4ad7b5f0-3911-5ede-9110-fbbfb48c198b))
   (label "GND"
-    (at 55.88 54.61 270)
+    (at 55.88 57.15 270)
     (effects
       (font
         (size 1.27 1.27))
@@ -978,15 +1026,31 @@
         (path "/4fe0de52-3962-5882-afff-a39b8445ab12"
           (reference "C1")
           (unit 1)))))
+  (wire
+    (pts
+      (xy 71.12 46.99)
+      (xy 71.12 44.45))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 0c9c3be7-23b4-5326-840c-43ade0e50cbc))
   (label "VCC"
-    (at 71.12 46.99 90)
+    (at 71.12 44.45 90)
     (effects
       (font
         (size 1.27 1.27))
       (justify left bottom))
     (uuid 842eadaf-e961-5223-8d34-775a0b3b00ae))
+  (wire
+    (pts
+      (xy 71.12 54.61)
+      (xy 71.12 57.15))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 4e1ad2a3-2bd4-5c85-ba38-aeb49a9da192))
   (label "GND"
-    (at 71.12 54.61 270)
+    (at 71.12 57.15 270)
     (effects
       (font
         (size 1.27 1.27))
@@ -1039,15 +1103,31 @@
         (path "/4fe0de52-3962-5882-afff-a39b8445ab12"
           (reference "C4")
           (unit 1)))))
+  (wire
+    (pts
+      (xy 86.36 46.99)
+      (xy 86.36 44.45))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid b9d175b4-d3c3-5024-8f4c-320a82f2c456))
   (label "VCC"
-    (at 86.36 46.99 90)
+    (at 86.36 44.45 90)
     (effects
       (font
         (size 1.27 1.27))
       (justify left bottom))
     (uuid 103eed17-1dde-5f12-b06e-d390dbdfe991))
+  (wire
+    (pts
+      (xy 86.36 54.61)
+      (xy 86.36 57.15))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid c34a63e8-0128-58e5-af89-f91adb779bf0))
   (label "GND"
-    (at 86.36 54.61 270)
+    (at 86.36 57.15 270)
     (effects
       (font
         (size 1.27 1.27))
@@ -1107,8 +1187,16 @@
         (path "/4fe0de52-3962-5882-afff-a39b8445ab12"
           (reference "U1")
           (unit 1)))))
+  (wire
+    (pts
+      (xy 132.08 52.07)
+      (xy 129.54 52.07))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 9bdc8e36-079f-5257-b91d-bfe99b52757d))
   (label "RESET"
-    (at 132.08 52.07 180)
+    (at 129.54 52.07 180)
     (effects
       (font
         (size 1.27 1.27))
@@ -1120,36 +1208,76 @@
   (no_connect
     (at 132.08 57.15)
     (uuid 7e8b3874-7765-5a73-92c1-12214e95fe16))
+  (wire
+    (pts
+      (xy 132.08 59.69)
+      (xy 129.54 59.69))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 1b8ac65f-942b-59fc-8db7-a747a2180063))
   (label "GND"
-    (at 132.08 59.69 180)
+    (at 129.54 59.69 180)
     (effects
       (font
         (size 1.27 1.27))
       (justify right bottom))
     (uuid 672cb412-42d9-5d59-8930-3a8509b3adf4))
+  (wire
+    (pts
+      (xy 152.4 52.07)
+      (xy 154.94 52.07))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 7890101d-142b-5a70-ac1a-57776aca7577))
   (label "VCC"
-    (at 152.4 52.07 0)
+    (at 154.94 52.07 0)
     (effects
       (font
         (size 1.27 1.27))
       (justify left bottom))
     (uuid e45560a7-eb56-511f-bc1c-1b5daf8805ec))
+  (wire
+    (pts
+      (xy 152.4 54.61)
+      (xy 154.94 54.61))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid e4ac0463-c8df-5495-855e-74e527049a57))
   (label "SCL"
-    (at 152.4 54.61 0)
+    (at 154.94 54.61 0)
     (effects
       (font
         (size 1.27 1.27))
       (justify left bottom))
     (uuid 0b33188c-82b2-5e2f-8fc1-3bd437340b1d))
+  (wire
+    (pts
+      (xy 152.4 57.15)
+      (xy 154.94 57.15))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 8f1ad820-5075-5d4e-9748-ccc5b8573d58))
   (label "DATA"
-    (at 152.4 57.15 0)
+    (at 154.94 57.15 0)
     (effects
       (font
         (size 1.27 1.27))
       (justify left bottom))
     (uuid 04d5744c-db12-5e89-92fe-843ec3a78269))
+  (wire
+    (pts
+      (xy 152.4 59.69)
+      (xy 154.94 59.69))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid f8fa84cc-8c30-5cfd-a940-3acae1ac3e01))
   (label "SDA"
-    (at 152.4 59.69 0)
+    (at 154.94 59.69 0)
     (effects
       (font
         (size 1.27 1.27))
@@ -1202,15 +1330,31 @@
         (path "/4fe0de52-3962-5882-afff-a39b8445ab12"
           (reference "R3")
           (unit 1)))))
+  (wire
+    (pts
+      (xy 116.84 97.79)
+      (xy 116.84 95.25))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid af6c9576-e88e-575c-bdf0-d993c86ab341))
   (label "VCC"
-    (at 116.84 97.79 90)
+    (at 116.84 95.25 90)
     (effects
       (font
         (size 1.27 1.27))
       (justify left bottom))
     (uuid 1f03137f-fbf1-5e23-a355-baf26c447cd9))
+  (wire
+    (pts
+      (xy 116.84 105.41)
+      (xy 116.84 107.95))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 0438b9ff-f8d9-5d92-9229-15c830dc618b))
   (label "RESET"
-    (at 116.84 105.41 270)
+    (at 116.84 107.95 270)
     (effects
       (font
         (size 1.27 1.27))
@@ -1263,15 +1407,31 @@
         (path "/4fe0de52-3962-5882-afff-a39b8445ab12"
           (reference "R2")
           (unit 1)))))
+  (wire
+    (pts
+      (xy 132.08 97.79)
+      (xy 132.08 95.25))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 4bdbc4ac-053b-5048-b213-bf7442102a99))
   (label "VCC"
-    (at 132.08 97.79 90)
+    (at 132.08 95.25 90)
     (effects
       (font
         (size 1.27 1.27))
       (justify left bottom))
     (uuid 490b3a4a-4f94-5a1a-a906-48230040e782))
+  (wire
+    (pts
+      (xy 132.08 105.41)
+      (xy 132.08 107.95))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 075eddfe-4149-5058-841f-5d23184995a0))
   (label "SCL"
-    (at 132.08 105.41 270)
+    (at 132.08 107.95 270)
     (effects
       (font
         (size 1.27 1.27))
@@ -1324,15 +1484,31 @@
         (path "/4fe0de52-3962-5882-afff-a39b8445ab12"
           (reference "R1")
           (unit 1)))))
+  (wire
+    (pts
+      (xy 147.32 97.79)
+      (xy 147.32 95.25))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 16771a41-2aeb-5cef-b9da-50955e0422bb))
   (label "VCC"
-    (at 147.32 97.79 90)
+    (at 147.32 95.25 90)
     (effects
       (font
         (size 1.27 1.27))
       (justify left bottom))
     (uuid dde2e1cc-6426-5bf9-9720-88ccedb93fe7))
+  (wire
+    (pts
+      (xy 147.32 105.41)
+      (xy 147.32 107.95))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid efd72269-c2fe-5aae-9779-04f1faa6874c))
   (label "SDA"
-    (at 147.32 105.41 270)
+    (at 147.32 107.95 270)
     (effects
       (font
         (size 1.27 1.27))
@@ -1384,29 +1560,61 @@
         (path "/4fe0de52-3962-5882-afff-a39b8445ab12"
           (reference "U2")
           (unit 1)))))
+  (wire
+    (pts
+      (xy 210.82 54.61)
+      (xy 208.28 54.61))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 06a95cfb-ac06-5dcb-8652-5c5e61b107af))
   (label "SDA"
-    (at 210.82 54.61 180)
+    (at 208.28 54.61 180)
     (effects
       (font
         (size 1.27 1.27))
       (justify right bottom))
     (uuid b719bfb8-cecc-57a8-a9fd-395fe3cd6dd2))
+  (wire
+    (pts
+      (xy 210.82 57.15)
+      (xy 208.28 57.15))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 83299ad6-9b1b-5b52-a091-670311a76ccf))
   (label "SCL"
-    (at 210.82 57.15 180)
+    (at 208.28 57.15 180)
     (effects
       (font
         (size 1.27 1.27))
       (justify right bottom))
     (uuid 981906a2-d2c3-53ec-af06-315e23985317))
+  (wire
+    (pts
+      (xy 226.06 54.61)
+      (xy 228.6 54.61))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid b9c81030-eef8-508f-af30-052438f77be6))
   (label "VCC"
-    (at 226.06 54.61 0)
+    (at 228.6 54.61 0)
     (effects
       (font
         (size 1.27 1.27))
       (justify left bottom))
     (uuid 2f014c5d-492b-516a-ac15-632c842251eb))
+  (wire
+    (pts
+      (xy 226.06 57.15)
+      (xy 228.6 57.15))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid b61fa4da-d3d9-5e51-8f46-73fe8fe001b0))
   (label "GND"
-    (at 226.06 57.15 0)
+    (at 228.6 57.15 0)
     (effects
       (font
         (size 1.27 1.27))
@@ -1458,29 +1666,61 @@
         (path "/4fe0de52-3962-5882-afff-a39b8445ab12"
           (reference "U3")
           (unit 1)))))
+  (wire
+    (pts
+      (xy 209.55 97.79)
+      (xy 207.01 97.79))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 4b7fcfbc-5bc5-5efb-acb4-2a8af372e643))
   (label "VCC"
-    (at 209.55 97.79 180)
+    (at 207.01 97.79 180)
     (effects
       (font
         (size 1.27 1.27))
       (justify right bottom))
     (uuid bc4bfc70-0ce6-5ec6-a98b-aa108a45a4a3))
+  (wire
+    (pts
+      (xy 209.55 100.33)
+      (xy 207.01 100.33))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 5a5b296b-387a-5b7b-b2d6-691b9df68011))
   (label "DATA"
-    (at 209.55 100.33 180)
+    (at 207.01 100.33 180)
     (effects
       (font
         (size 1.27 1.27))
       (justify right bottom))
     (uuid ceac1491-cf95-5815-90fd-412b581c17f4))
+  (wire
+    (pts
+      (xy 209.55 102.87)
+      (xy 207.01 102.87))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid dd04f63a-9c8f-56c5-9667-a77ea529e5f3))
   (label "GND"
-    (at 209.55 102.87 180)
+    (at 207.01 102.87 180)
     (effects
       (font
         (size 1.27 1.27))
       (justify right bottom))
     (uuid 97669ecc-ce0f-501b-8315-f73f62009212))
+  (wire
+    (pts
+      (xy 209.55 105.41)
+      (xy 207.01 105.41))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 989ac778-9e86-5d81-87a4-00c677ea0aa0))
   (label "ANT"
-    (at 209.55 105.41 180)
+    (at 207.01 105.41 180)
     (effects
       (font
         (size 1.27 1.27))
@@ -1526,8 +1766,16 @@
         (path "/4fe0de52-3962-5882-afff-a39b8445ab12"
           (reference "J2")
           (unit 1)))))
+  (wire
+    (pts
+      (xy 250.19 116.84)
+      (xy 247.65 116.84))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 8b619fed-0975-571a-84a3-7832b37c1c89))
   (label "ANT"
-    (at 250.19 116.84 180)
+    (at 247.65 116.84 180)
     (effects
       (font
         (size 1.27 1.27))
@@ -1583,43 +1831,91 @@
         (path "/4fe0de52-3962-5882-afff-a39b8445ab12"
           (reference "J1")
           (unit 1)))))
+  (wire
+    (pts
+      (xy 210.82 144.78)
+      (xy 208.28 144.78))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid ad32c060-bba6-52d9-9db5-c16d3e85b108))
   (label "DATA"
-    (at 210.82 144.78 180)
+    (at 208.28 144.78 180)
     (effects
       (font
         (size 1.27 1.27))
       (justify right bottom))
     (uuid 852cb905-4dfa-53a6-aa04-2f9af9fc9fd7))
+  (wire
+    (pts
+      (xy 210.82 147.32)
+      (xy 208.28 147.32))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid fa9a3dd8-e907-55f0-97c5-2f845f006100))
   (label "SCL"
-    (at 210.82 147.32 180)
+    (at 208.28 147.32 180)
     (effects
       (font
         (size 1.27 1.27))
       (justify right bottom))
     (uuid 4efa6db6-a534-5d45-8dbf-fc4e014c7e78))
+  (wire
+    (pts
+      (xy 210.82 149.86)
+      (xy 208.28 149.86))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 0e0fc65b-cd70-5906-9560-89d9707aad76))
   (label "RESET"
-    (at 210.82 149.86 180)
+    (at 208.28 149.86 180)
     (effects
       (font
         (size 1.27 1.27))
       (justify right bottom))
     (uuid a280bd7e-4764-5905-a0bc-1190b9199887))
+  (wire
+    (pts
+      (xy 226.06 144.78)
+      (xy 228.6 144.78))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 484dc1e6-2445-538f-aa73-eb7f4f24763a))
   (label "VCC"
-    (at 226.06 144.78 0)
+    (at 228.6 144.78 0)
     (effects
       (font
         (size 1.27 1.27))
       (justify left bottom))
     (uuid 5d3f43f7-4cd4-5a54-bc00-ae48fcb529fe))
+  (wire
+    (pts
+      (xy 226.06 147.32)
+      (xy 228.6 147.32))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 25eb43c4-b602-5994-b45b-779585ef770c))
   (label "SDA"
-    (at 226.06 147.32 0)
+    (at 228.6 147.32 0)
     (effects
       (font
         (size 1.27 1.27))
       (justify left bottom))
     (uuid 21a2e760-de96-5610-899f-18e2ac6749bd))
+  (wire
+    (pts
+      (xy 226.06 149.86)
+      (xy 228.6 149.86))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid 4090a052-38bb-542d-b87f-5b5922165d19))
   (label "GND"
-    (at 226.06 149.86 0)
+    (at 228.6 149.86 0)
     (effects
       (font
         (size 1.27 1.27))

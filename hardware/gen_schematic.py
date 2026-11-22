@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Generate hardware/sensor-node.kicad_sch from the net table below.
+"""Generate hardware/sensor-node.kicad_sch from the PARTS table below.
 
-Matches docs/images/pcb-schematic.svg. Every connection is made with a net
-label sitting on the pin tip, so the NETS table below is the whole circuit.
+Matches docs/images/pcb-schematic.svg. Each pin gets a short wire with a net
+label on its end, so the PARTS table below is the whole circuit.
 
     python3 hardware/gen_schematic.py
 """
@@ -185,6 +185,9 @@ def pin_tip(sym, num, X, Y):
 # Label angle/justify for a pin tip, so the text points away from the body.
 LABEL_DIR = {0: (180, "right bottom"), 180: (0, "left bottom"),
              270: (90, "left bottom"), 90: (270, "right bottom")}
+# Sheet direction (Y down) pointing away from the body, per pin angle.
+STUB_DIR = {0: (-1, 0), 180: (1, 0), 270: (0, -1), 90: (0, 1)}
+STUB = G
 
 
 def main():
@@ -220,8 +223,14 @@ def main():
                 body.append(f"(no_connect (at {r(tx)} {r(ty)}) (uuid {uid(ref, 'nc', num)}))")
                 continue
             nets.setdefault(net, []).append(f"{ref}.{num}")
+            # Short wire out from the pin, label on its far end. Importers
+            # such as EasyEDA only attach labels to wires, not to bare pins.
+            dx, dy = STUB_DIR[ang]
+            ex, ey = tx + dx * STUB, ty + dy * STUB
+            body.append(f"(wire (pts (xy {r(tx)} {r(ty)}) (xy {r(ex)} {r(ey)})) "
+                        f"(stroke (width 0) (type default)) (uuid {uid(ref, 'wire', num)}))")
             la, lj = LABEL_DIR[ang]
-            body.append(f'(label "{net}" (at {r(tx)} {r(ty)} {la}) '
+            body.append(f'(label "{net}" (at {r(ex)} {r(ey)} {la}) '
                         f'(effects (font (size 1.27 1.27)) (justify {lj})) '
                         f'(uuid {uid(ref, "label", num)}))')
         # every pin must be connected or marked no-connect

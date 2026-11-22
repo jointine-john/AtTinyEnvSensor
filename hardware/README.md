@@ -18,7 +18,7 @@ matches the drawing in [Future plans](../docs/future-plans.md#schematic-draft).
    field is filled in for the resistors and ceramic capacitors.
 4. **Design → Update/Convert Schematic to PCB**, then lay out the board.
 
-Every connection is a net label on a pin, with no wires. Labels with the same
+Each pin has a short wire with a net label on its end. Labels with the same
 name are connected.
 
 ## Changing the circuit
