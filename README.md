@@ -13,6 +13,16 @@ projects share the radio protocol, so one receiver can hear both kinds of node.
  [ATtiny85 + sensor + STX882] ))) 433.92 MHz OOK ))) [RXB6/SRX882 + ESP32] --WiFi--> MQTT --> Home Assistant
 ```
 
+## PCB (in progress)
+
+A round coin-cell board is being laid out in EasyEDA, with the parts on top and
+the CR2450 holder underneath. See [Hardware](hardware/README.md) for the
+schematic files and footprints.
+
+| Top | Bottom |
+|---|---|
+| ![PCB top](hardware/images/3D_PCB2_2026-11-22-top.png) | ![PCB bottom](hardware/images/3D_PCB2_2026-11-22-bottom.png) |
+
 ## Documentation
 
 | | Page | Contents |
@@ -47,5 +57,6 @@ pio run -t upload && pio device monitor
 | `common/protocol.h` | Over-the-air packet format, shared by both ends |
 | `sensor-node/` | ATtiny85 firmware (bare avr-gcc via PlatformIO, no Arduino core) |
 | `receiver/` | ESP32 firmware (Arduino via PlatformIO) |
+| `hardware/` | PCB schematic (EAGLE and KiCad) for EasyEDA, footprints, renders |
 | `test/` | PC test of the Manchester decoder against noisy, jittered signals |
 | `docs/` | Documentation |
