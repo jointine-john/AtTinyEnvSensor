@@ -214,16 +214,17 @@
        <text x="2.54" y="-0.635" size="1.778" layer="96" align="top-left">&gt;VALUE</text>
       </symbol>
       <symbol name="SHT40">
-       <wire x1="-5.08" y1="3.81" x2="5.08" y2="3.81" width="0.254" layer="94"/>
-       <wire x1="5.08" y1="3.81" x2="5.08" y2="-3.81" width="0.254" layer="94"/>
-       <wire x1="5.08" y1="-3.81" x2="-5.08" y2="-3.81" width="0.254" layer="94"/>
-       <wire x1="-5.08" y1="-3.81" x2="-5.08" y2="3.81" width="0.254" layer="94"/>
-       <pin name="SDA" x="-7.62" y="1.27" direction="io" rot="R0" length="short" visible="pin"/>
-       <pin name="SCL" x="-7.62" y="-1.27" direction="in" rot="R0" length="short" visible="pin"/>
-       <pin name="VDD" x="7.62" y="1.27" direction="pas" rot="R180" length="short" visible="pin"/>
-       <pin name="VSS" x="7.62" y="-1.27" direction="pas" rot="R180" length="short" visible="pin"/>
-       <text x="0" y="3.81" size="1.778" layer="95" align="bottom-center">&gt;NAME</text>
-       <text x="0" y="-3.81" size="1.778" layer="96" align="top-center">&gt;VALUE</text>
+       <wire x1="-5.08" y1="5.08" x2="5.08" y2="5.08" width="0.254" layer="94"/>
+       <wire x1="5.08" y1="5.08" x2="5.08" y2="-5.08" width="0.254" layer="94"/>
+       <wire x1="5.08" y1="-5.08" x2="-5.08" y2="-5.08" width="0.254" layer="94"/>
+       <wire x1="-5.08" y1="-5.08" x2="-5.08" y2="5.08" width="0.254" layer="94"/>
+       <pin name="SDA" x="-7.62" y="2.54" direction="io" rot="R0" length="short" visible="pin"/>
+       <pin name="SCL" x="-7.62" y="0" direction="in" rot="R0" length="short" visible="pin"/>
+       <pin name="VDD" x="7.62" y="2.54" direction="pas" rot="R180" length="short" visible="pin"/>
+       <pin name="VSS" x="7.62" y="0" direction="pas" rot="R180" length="short" visible="pin"/>
+       <pin name="EP" x="7.62" y="-2.54" direction="pas" rot="R180" length="short" visible="pin"/>
+       <text x="0" y="5.08" size="1.778" layer="95" align="bottom-center">&gt;NAME</text>
+       <text x="0" y="-5.08" size="1.778" layer="96" align="top-center">&gt;VALUE</text>
       </symbol>
       <symbol name="STX882">
        <wire x1="-6.35" y1="6.35" x2="6.35" y2="6.35" width="0.254" layer="94"/>
@@ -515,8 +516,13 @@
        </segment>
        <segment>
         <pinref part="U2" gate="G$1" pin="VSS"/>
-        <wire x1="226.06" y1="142.85" x2="228.6" y2="142.85" width="0.1524" layer="91"/>
-        <label x="228.6" y="142.85" size="1.778" layer="95" rot="R0"/>
+        <wire x1="226.06" y1="144.12" x2="228.6" y2="144.12" width="0.1524" layer="91"/>
+        <label x="228.6" y="144.12" size="1.778" layer="95" rot="R0"/>
+       </segment>
+       <segment>
+        <pinref part="U2" gate="G$1" pin="EP"/>
+        <wire x1="226.06" y1="141.58" x2="228.6" y2="141.58" width="0.1524" layer="91"/>
+        <label x="228.6" y="141.58" size="1.778" layer="95" rot="R0"/>
        </segment>
        <segment>
         <pinref part="U3" gate="G$1" pin="GND"/>
@@ -559,8 +565,8 @@
        </segment>
        <segment>
         <pinref part="U2" gate="G$1" pin="SCL"/>
-        <wire x1="210.82" y1="142.85" x2="208.28" y2="142.85" width="0.1524" layer="91"/>
-        <label x="208.28" y="142.85" size="1.778" layer="95" rot="R180"/>
+        <wire x1="210.82" y1="144.12" x2="208.28" y2="144.12" width="0.1524" layer="91"/>
+        <label x="208.28" y="144.12" size="1.778" layer="95" rot="R180"/>
        </segment>
        <segment>
         <pinref part="J1" gate="G$1" pin="SCK"/>
@@ -581,8 +587,8 @@
        </segment>
        <segment>
         <pinref part="U2" gate="G$1" pin="SDA"/>
-        <wire x1="210.82" y1="145.39" x2="208.28" y2="145.39" width="0.1524" layer="91"/>
-        <label x="208.28" y="145.39" size="1.778" layer="95" rot="R180"/>
+        <wire x1="210.82" y1="146.66" x2="208.28" y2="146.66" width="0.1524" layer="91"/>
+        <label x="208.28" y="146.66" size="1.778" layer="95" rot="R180"/>
        </segment>
        <segment>
         <pinref part="J1" gate="G$1" pin="MOSI"/>
@@ -638,8 +644,8 @@
        </segment>
        <segment>
         <pinref part="U2" gate="G$1" pin="VDD"/>
-        <wire x1="226.06" y1="145.39" x2="228.6" y2="145.39" width="0.1524" layer="91"/>
-        <label x="228.6" y="145.39" size="1.778" layer="95" rot="R0"/>
+        <wire x1="226.06" y1="146.66" x2="228.6" y2="146.66" width="0.1524" layer="91"/>
+        <label x="228.6" y="146.66" size="1.778" layer="95" rot="R0"/>
        </segment>
        <segment>
         <pinref part="U3" gate="G$1" pin="VCC"/>

@@ -12,6 +12,15 @@ EasyEDA Pro. Both match the drawing in [Future plans](../docs/future-plans.md#sc
 | `gen_schematic.py` | Generates the KiCad schematic. Its `PARTS` table is the circuit |
 | `gen_eagle.py` | Generates the EAGLE schematic from the same table |
 
+## Board
+
+3D renders of the first EasyEDA layout (22 November 2026): a round board with
+the parts on top and the CR2450 holder underneath.
+
+| Top | Bottom |
+|---|---|
+| ![PCB top](images/3D_PCB2_2026-11-22-top.png) | ![PCB bottom](images/3D_PCB2_2026-11-22-bottom.png) |
+
 ## Import the EAGLE file (try this first)
 
 1. In EasyEDA Pro: **File → Import → EAGLE**, and choose `sensor-node.sch`.
@@ -41,7 +50,7 @@ number where there is one.
 | Ref | Part | Footprint | In EasyEDA |
 |---|---|---|---|
 | U1 | ATtiny85V-10SU | SOIC-8, 150 mil body (3.9 × 4.9 mm), 1.27 mm pitch | Search `ATTINY85V-10SU`. The ATtiny85-20SU has the same footprint but is only rated down to 2.7 V |
-| U2 | SHT40-AD1B | DFN-4, 1.5 × 1.5 mm, 0.8 mm pitch | Search `SHT40-AD1B`. Pins: 1 SDA, 2 SCL, 3 VDD, 4 VSS |
+| U2 | SHT40-AD1B | DFN-4, 1.5 × 1.5 mm, 0.8 mm pitch | Search `SHT40-AD1B`. Pins: 1 SDA, 2 SCL, 3 VDD, 4 VSS, 5 centre pad to GND with a thin track (not a pour, to keep heat out) |
 | U3 | STX882 module | 1×4 pin header, 2.54 mm, through-hole | No LCSC part. Check the pin order and pitch on your module |
 | J1 | ISP header | 2×3 pin header, 2.54 mm, vertical, through-hole | Generic header, or 6 SMD pads for pogo pins |
 | J2 | Antenna pad | Single through-hole pad, about 1.0 mm drill, 2 mm pad | For the 17.3 cm wire |

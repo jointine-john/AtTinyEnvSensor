@@ -617,8 +617,8 @@
             (size 1.27 1.27)) hide))
       (symbol "SHT40_0_1"
         (rectangle
-          (start -5.08 3.81)
-          (end 5.08 -3.81)
+          (start -5.08 5.08)
+          (end 5.08 -5.08)
           (stroke
             (width 0.254)
             (type default))
@@ -626,7 +626,7 @@
             (type background))))
       (symbol "SHT40_1_1"
         (pin bidirectional line
-          (at -7.62 1.27 0)
+          (at -7.62 2.54 0)
           (length 2.54)
           (name "SDA"
             (effects
@@ -637,7 +637,7 @@
               (font
                 (size 1.27 1.27)))))
         (pin input line
-          (at -7.62 -1.27 0)
+          (at -7.62 0 0)
           (length 2.54)
           (name "SCL"
             (effects
@@ -648,7 +648,7 @@
               (font
                 (size 1.27 1.27)))))
         (pin power_in line
-          (at 7.62 1.27 180)
+          (at 7.62 2.54 180)
           (length 2.54)
           (name "VDD"
             (effects
@@ -659,13 +659,24 @@
               (font
                 (size 1.27 1.27)))))
         (pin power_in line
-          (at 7.62 -1.27 180)
+          (at 7.62 0 180)
           (length 2.54)
           (name "VSS"
             (effects
               (font
                 (size 1.27 1.27))))
           (number "4"
+            (effects
+              (font
+                (size 1.27 1.27)))))
+        (pin passive line
+          (at 7.62 -2.54 180)
+          (length 2.54)
+          (name "EP"
+            (effects
+              (font
+                (size 1.27 1.27))))
+          (number "5"
             (effects
               (font
                 (size 1.27 1.27)))))) )
@@ -1523,16 +1534,16 @@
     (dnp no)
     (uuid cfc63c57-6542-5437-b6e8-eae5cf41806f)
     (property "Reference" "U2"
-      (at 218.44 50.8 0)
+      (at 218.44 49.53 0)
       (effects
         (font
           (size 1.27 1.27))))
     (property "Value" "SHT40-AD1B"
-      (at 218.44 60.96 0)
+      (at 218.44 62.23 0)
       (effects
         (font
           (size 1.27 1.27))))
-    (property "Footprint" "Sensor_Humidity:Sensirion_DFN-4_1.5x1.5mm_P0.8mm_SHT4x_NoCentralPad"
+    (property "Footprint" ""
       (at 218.44 55.88 0)
       (effects
         (font
@@ -1555,6 +1566,8 @@
       (uuid ae0a37f4-8124-501c-8aaf-0ede57c5b98e))
     (pin "4"
       (uuid 8dc126b9-e0dc-5a7d-9cf5-b2db93516170))
+    (pin "5"
+      (uuid feabe1be-90bf-5faa-a4da-9f3f75599ec4))
     (instances
       (project "sensor-node"
         (path "/4fe0de52-3962-5882-afff-a39b8445ab12"
@@ -1562,14 +1575,14 @@
           (unit 1)))))
   (wire
     (pts
-      (xy 210.82 54.61)
-      (xy 208.28 54.61))
+      (xy 210.82 53.34)
+      (xy 208.28 53.34))
     (stroke
       (width 0)
       (type default))
     (uuid 06a95cfb-ac06-5dcb-8652-5c5e61b107af))
   (label "SDA"
-    (at 208.28 54.61 180)
+    (at 208.28 53.34 180)
     (effects
       (font
         (size 1.27 1.27))
@@ -1577,14 +1590,14 @@
     (uuid b719bfb8-cecc-57a8-a9fd-395fe3cd6dd2))
   (wire
     (pts
-      (xy 210.82 57.15)
-      (xy 208.28 57.15))
+      (xy 210.82 55.88)
+      (xy 208.28 55.88))
     (stroke
       (width 0)
       (type default))
     (uuid 83299ad6-9b1b-5b52-a091-670311a76ccf))
   (label "SCL"
-    (at 208.28 57.15 180)
+    (at 208.28 55.88 180)
     (effects
       (font
         (size 1.27 1.27))
@@ -1592,14 +1605,14 @@
     (uuid 981906a2-d2c3-53ec-af06-315e23985317))
   (wire
     (pts
-      (xy 226.06 54.61)
-      (xy 228.6 54.61))
+      (xy 226.06 53.34)
+      (xy 228.6 53.34))
     (stroke
       (width 0)
       (type default))
     (uuid b9c81030-eef8-508f-af30-052438f77be6))
   (label "VCC"
-    (at 228.6 54.61 0)
+    (at 228.6 53.34 0)
     (effects
       (font
         (size 1.27 1.27))
@@ -1607,19 +1620,34 @@
     (uuid 2f014c5d-492b-516a-ac15-632c842251eb))
   (wire
     (pts
-      (xy 226.06 57.15)
-      (xy 228.6 57.15))
+      (xy 226.06 55.88)
+      (xy 228.6 55.88))
     (stroke
       (width 0)
       (type default))
     (uuid b61fa4da-d3d9-5e51-8f46-73fe8fe001b0))
   (label "GND"
-    (at 228.6 57.15 0)
+    (at 228.6 55.88 0)
     (effects
       (font
         (size 1.27 1.27))
       (justify left bottom))
     (uuid e7a8240e-7e63-5cdd-9865-50beedb301bf))
+  (wire
+    (pts
+      (xy 226.06 58.42)
+      (xy 228.6 58.42))
+    (stroke
+      (width 0)
+      (type default))
+    (uuid aea0c0e6-a03f-5dd7-b7ee-b32e9136efb4))
+  (label "GND"
+    (at 228.6 58.42 0)
+    (effects
+      (font
+        (size 1.27 1.27))
+      (justify left bottom))
+    (uuid 964b84ed-1179-550f-b22d-17397264589f))
   (symbol
     (lib_id "EnvSensor:STX882")
     (at 218.44 101.6 0)

@@ -69,7 +69,8 @@ SYMBOLS = {
                     ("5", "PB0/MOSI", "bidirectional")], 7.62),
     "SHT40": ic("SHT40",
                 [("1", "SDA", "bidirectional"), ("2", "SCL", "input")],
-                [("3", "VDD", "power_in"), ("4", "VSS", "power_in")], 5.08),
+                [("3", "VDD", "power_in"), ("4", "VSS", "power_in"),
+                 ("5", "EP", "passive")], 5.08),
     "STX882": ic("STX882",
                  [("1", "VCC", "power_in"), ("2", "DATA", "input"),
                   ("3", "GND", "power_in"), ("4", "ANT", "passive")], [], 6.35),
@@ -125,8 +126,9 @@ PARTS = {
     "R2": ("R", "10k", FP_0603R, "C25804", 52, 40, {"1": "VCC", "2": "SCL"}),
     "R1": ("R", "10k", FP_0603R, "C25804", 58, 40, {"1": "VCC", "2": "SDA"}),
     "U2": ("SHT40", "SHT40-AD1B",
-           "Sensor_Humidity:Sensirion_DFN-4_1.5x1.5mm_P0.8mm_SHT4x_NoCentralPad", "",
-           86, 22, {"1": "SDA", "2": "SCL", "3": "VCC", "4": "GND"}),
+           "", "",  # footprint: pick the LCSC SHT40 part (DFN-4 + centre pad)
+           86, 22, {"1": "SDA", "2": "SCL", "3": "VCC", "4": "GND",
+                    "5": "GND"}),  # 5: exposed centre pad, tied to VSS inside
     "U3": ("STX882", "STX882", "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical", "",
            86, 40, {"1": "VCC", "2": "DATA", "3": "GND", "4": "ANT"}),
     "J2": ("AntennaPad", "Antenna 17.3cm wire",
