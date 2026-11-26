@@ -2,7 +2,8 @@
 
 Nothing on this page is built yet. It records where the sensor node is headed
 after the stripboard proof of concept: a custom PCB, an enclosure, and coin-cell
-power. It also covers a sensor on the ESP32 receiver itself.
+power. It also covers a sensor on the ESP32 receiver itself, and a possible
+move to NRF24L01 radios.
 
 Wind and rain recording (on the ATtiny84) moved to the separate
 [AtTinyWeatherStation](https://github.com/jointine-john/AtTinyWeatherStation) project.
@@ -165,6 +166,61 @@ The receiver is mains-powered, so power use doesn't matter here.
 - Keep it optional: if no sensor answers at start-up, log it and carry on
   receiving, so receivers without a sensor still work.
 
+## 5. NRF24L01 radio (to evaluate)
+
+An alternative to the 433 MHz STX882/RXB6 pair, using NRF24L01 2.4 GHz
+transceivers (already on hand). Not started: first sketch a 3-pin ATtiny85
+design and compare the power budget against the STX882.
+
+### Why
+
+- **Much less transmit energy:** about 11 mA for under 1 ms per packet at
+  250 kbps, against about 15 mA for ~360 ms with the STX882. This is the
+  biggest item in the budget and the cause of the coin-cell
+  [pulse-current problem](#the-pulse-current-problem).
+- **Two-way, with hardware acks and retries:** delivery is confirmed, so the
+  3× repeats (`PROTO_REPEATS`) could go.
+- **Low sleep current:** about 0.9 µA in power-down.
+
+### Against
+
+- **Pins:** SPI needs CE, CSN, SCK, MOSI and MISO, plus SDA/SCL for the
+  sensor. On the ATtiny85 this means the "3-pin" hookup (CE tied high, CSN
+  derived from SCK with an RC network). The USI can't do I²C and SPI at once,
+  so one would be bit-banged. An ATtiny84 avoids most of this.
+- **Range:** 2.4 GHz goes through walls worse than 433 MHz and shares the
+  band with WiFi, so indoor range may be shorter.
+- **Rewrite:** a different protocol from the OOK pulse timing in
+  `common/protocol.h`. The receiver would use the RF24 library instead of the
+  current decoder.
+- **Clones:** many modules are Si24R1 or similar clones; 250 kbps and power
+  levels may behave differently.
+
+### Receiver wiring (ESP32, VSPI)
+
+| NRF24L01 | ESP32 |
+|---|---|
+| VCC | 3V3 (not 5 V) |
+| GND | GND |
+| CE | any free GPIO, e.g. GPIO16 |
+| CSN | GPIO5 |
+| SCK | GPIO18 |
+| MOSI | GPIO23 |
+| MISO | GPIO19 |
+| IRQ | optional, any free GPIO |
+
+GPIO4 stays free for the 433 MHz receiver, so both radios could run side by
+side during a changeover. Fit a 10–100 µF capacitor right at the module's
+VCC/GND pins; without it modules are often unreliable.
+
+### Steps
+
+1. Sketch the ATtiny85 3-pin hookup with the SHT40, and estimate the power
+   budget against [Power budget](power.md).
+2. Bench test range indoors against the STX882/RXB6 pair.
+3. Decide: switch radios, keep 433 MHz, or use the NRF24L01 only for the
+   coin-cell node.
+
 ## Open questions
 
 - Target battery life: what is the minimum acceptable?
@@ -174,3 +230,5 @@ The receiver is mains-powered, so power use doesn't matter here.
 - Wire antenna or PCB antenna?
 - Receiver sensor: BME280 alone, or SHT40 + BMP280/BMP390? Indoors with the
   receiver, or on a lead outside?
+- Radio: stay on 433 MHz, or move to the NRF24L01? This depends on the power
+  and range tests.
