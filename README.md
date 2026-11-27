@@ -59,4 +59,5 @@ pio run -t upload && pio device monitor
 | `receiver/` | ESP32 firmware (Arduino via PlatformIO) |
 | `hardware/` | PCB schematic (EAGLE and KiCad) for EasyEDA, footprints, renders |
 | `test/` | PC test of the Manchester decoder against noisy, jittered signals |
+| `poc/` | Proof-of-concept extras for the stripboard build (3D-printable case) |
 | `docs/` | Documentation |
