@@ -13,6 +13,10 @@ design (the round PCB in `hardware/`), which will get its own case.
 - the STX882 transmitter on wires
 - a GY-21 or SHT40 breakout on wires
 
+| Assembly (parts ghosted, lid lifted) | Base |
+|---|---|
+| ![Assembly](case/assembly.png) | ![Base](case/base.png) |
+
 ```
   sensor chamber   divider            electronics
  +--------------+--+------------------------------------------+
